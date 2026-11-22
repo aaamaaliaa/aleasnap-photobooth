@@ -6,6 +6,7 @@ import AboutPage from './components/about/AboutPage';
 import HowItWorksPage from './components/howItWorks/HowItWorksPage';
 import GalleryPage from './components/gallery/GalleryPage';
 import PhotoboothPage from './components/photobooth/PhotoboothPage';
+import PhotoEditorPage from './components/editor/PhotoEditorPage';
 import { PAGES } from './constants/routes';
 import { FRAMES_LIST } from './data/framesData';
 import './styles/global.css';
@@ -31,7 +32,7 @@ export default function App() {
 
   const handleProceedToEditor = (data) => {
     setSessionData(data);
-    alert(`🎉 Sesi foto berhasil diambil (${data.photos.filter(Boolean).length} foto)! Siap untuk Tahap 5 (Photo Editor & Canvas Strip).`);
+    handleNavigate(PAGES.EDITOR);
   };
 
   return (
@@ -78,6 +79,14 @@ export default function App() {
             onNavigateGallery={() => handleNavigate(PAGES.GALLERY)}
             onNavigateHome={() => handleNavigate(PAGES.HOME)}
             onProceedToEditor={handleProceedToEditor}
+          />
+        )}
+
+        {activePage === PAGES.EDITOR && (
+          <PhotoEditorPage
+            sessionData={sessionData}
+            onNavigatePhotobooth={() => handleNavigate(PAGES.PHOTOBOOTH)}
+            onNavigateHome={() => handleNavigate(PAGES.HOME)}
           />
         )}
       </main>

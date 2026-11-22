@@ -1,7 +1,7 @@
 // Canvas rendering engine to draw high-resolution photo strips with full frame styles, stickers & layouts
 
 function loadImage(src) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!src) {
       resolve(null);
       return;
@@ -63,7 +63,8 @@ export async function renderPhotoStripCanvas({
   filter = 'none',
   brightness = 100,
   contrast = 100,
-  customText = ''
+  customText = '',
+  stickers = []
 }) {
   const isGrid = layout?.type === 'grid';
   const slotsCount = layout?.slots || 4;
@@ -100,6 +101,12 @@ export async function renderPhotoStripCanvas({
   } else if (frame?.id === 'winter-snow-magic') {
     bgGrad.addColorStop(0, '#F0F7FF');
     bgGrad.addColorStop(1, '#D6EAFF');
+  } else if (frame?.id === 'autumn-maple-warmth') {
+    bgGrad.addColorStop(0, '#FFF4ED');
+    bgGrad.addColorStop(1, '#FED9C6');
+  } else if (frame?.id === 'doodle-bear-party') {
+    bgGrad.addColorStop(0, '#FFF9F2');
+    bgGrad.addColorStop(1, '#FFE9D1');
   } else {
     // Default Matcha / Natural
     bgGrad.addColorStop(0, '#F9FAF5');
@@ -135,7 +142,7 @@ export async function renderPhotoStripCanvas({
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const headerTitle = customText || frame?.decorations?.headerText || 'MATCHABOX • KOREAN PHOTOBOOTH';
+  const headerTitle = customText.trim() ? customText : (frame?.decorations?.headerText || 'MATCHABOX • KOREAN PHOTOBOOTH');
   ctx.font = 'bold 34px "Fredoka", sans-serif';
   ctx.fillStyle = textColor;
   ctx.fillText(headerTitle, canvasWidth / 2, 75);
@@ -150,11 +157,11 @@ export async function renderPhotoStripCanvas({
   ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
   ctx.fillText(`${todayStr} • SEOUL MEMORIES`, canvasWidth / 2, 115);
 
-  // Top Decorative Stickers
-  const stickers = frame?.decorations?.stickers || ['🍵', '✨'];
+  // Top Decorative Frame Stickers
+  const frameStickers = frame?.decorations?.stickers || ['🍵', '✨'];
   ctx.font = '36px sans-serif';
-  ctx.fillText(stickers[0] || '✨', 80, 85);
-  ctx.fillText(stickers[1] || '♡', canvasWidth - 80, 85);
+  ctx.fillText(frameStickers[0] || '✨', 80, 85);
+  ctx.fillText(frameStickers[1] || '♡', canvasWidth - 80, 85);
 
   // 4. Calculate Photo Slot Boundaries
   const slotPadding = 48;
@@ -223,6 +230,26 @@ export async function renderPhotoStripCanvas({
   ctx.fillText(stampText, 10, 4);
   ctx.restore();
 
+  // 6. Draw User-Added Interactive Stickers on top of strip
+  if (stickers && stickers.length > 0) {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    stickers.forEach((st) => {
+      ctx.save();
+      const px = (st.x / 100) * canvasWidth;
+      const py = (st.y / 100) * canvasHeight;
+      const size = st.size || 52;
+      const rotation = ((st.rotation || 0) * Math.PI) / 180;
+
+      ctx.translate(px, py);
+      ctx.rotate(rotation);
+      ctx.font = `${size}px sans-serif`;
+      ctx.fillText(st.emoji, 0, 0);
+      ctx.restore();
+    });
+  }
+
   // Return generated Data URL
   return canvas.toDataURL('image/png', 0.95);
 }
@@ -238,11 +265,13 @@ function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index) {
   if (img) {
     // Build filter string
     let filterString = `brightness(${brightness}%) contrast(${contrast}%)`;
-    if (filter === 'warm') filterString += ' sepia(25%) saturate(120%)';
+    if (filter === 'warm') filterString += ' sepia(25%) saturate(125%)';
     if (filter === 'cool') filterString += ' hue-rotate(180deg) saturate(90%)';
-    if (filter === 'bw') filterString += ' grayscale(100%)';
-    if (filter === 'sepia') filterString += ' sepia(80%)';
     if (filter === 'vintage') filterString += ' sepia(35%) contrast(110%) brightness(95%)';
+    if (filter === 'bw') filterString += ' grayscale(100%)';
+    if (filter === 'sepia') filterString += ' sepia(85%)';
+    if (filter === 'soft_pink') filterString += ' hue-rotate(330deg) saturate(115%) brightness(105%)';
+    if (filter === 'vivid') filterString += ' saturate(150%) contrast(115%)';
 
     ctx.filter = filterString;
     drawImageCover(ctx, img, x, y, w, h);
