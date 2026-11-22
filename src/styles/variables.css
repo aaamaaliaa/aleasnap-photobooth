@@ -1,0 +1,56 @@
+:root {
+  /* Matcha Green Palette */
+  --matcha-primary: #769864;
+  --matcha-primary-hover: #658455;
+  --matcha-dark: #445936;
+  --matcha-light: #C2D7B4;
+  --matcha-soft: #E9F2E2;
+  --matcha-bg: #F6F9F3;
+  --matcha-tint: #F0F6EC;
+
+  /* Secondary & Neutral Palette */
+  --sage-green: #97AB8A;
+  --soft-olive: #66764B;
+  --cream: #FFFDF9;
+  --cream-card: #FFFFFF;
+  --cream-alt: #FAF7F0;
+
+  /* Accent Colors (Korean Cute Theme) */
+  --accent-pink: #F8B4B4;
+  --accent-peach: #FCD5CE;
+  --accent-butter: #FDE8A5;
+  --accent-lavender: #D8D4F2;
+
+  /* Text Colors */
+  --text-main: #273322;
+  --text-muted: #64755C;
+  --text-light: #8E9F86;
+  --text-white: #FFFFFF;
+
+  /* Borders & Shadows */
+  --border-light: #E2EBD9;
+  --border-hover: #C6D8BC;
+  --border-focus: #769864;
+
+  --shadow-sm: 0 2px 8px rgba(118, 152, 100, 0.08);
+  --shadow-md: 0 8px 24px rgba(118, 152, 100, 0.12);
+  --shadow-lg: 0 16px 40px rgba(118, 152, 100, 0.16);
+  --shadow-cute: 0 8px 0px #CBDBC1;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* Fonts */
+  --font-display: 'Fredoka', 'Pretendard', sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
