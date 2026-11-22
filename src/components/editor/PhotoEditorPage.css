@@ -315,3 +315,19 @@
     position: static;
   }
 }
+
+@media (max-width: 600px) {
+  .editor-canvas-stage {
+    padding: 1.5rem 0.75rem;
+  }
+  .editor-strip-card {
+    width: 220px;
+  }
+  .editor-strip-card.grid-mode {
+    width: 280px;
+  }
+  .filters-preset-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
