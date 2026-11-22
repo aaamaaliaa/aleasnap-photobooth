@@ -1,0 +1,100 @@
+.download-page {
+  padding: 2rem 1rem 4rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.download-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-light);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.download-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.download-title {
+  font-size: 1.6rem;
+  color: var(--matcha-dark);
+}
+
+.download-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.download-photo-wrapper {
+  max-width: 320px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(118, 152, 100, 0.2);
+  border: 3px solid white;
+}
+
+.download-photo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.download-actions-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-mobile-download {
+  width: 100%;
+  background: linear-gradient(135deg, var(--matcha-primary) 0%, var(--matcha-dark) 100%);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.9rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 16px rgba(118, 152, 100, 0.4);
+}
+
+.btn-mobile-share {
+  width: 100%;
+  background: var(--matcha-soft);
+  color: var(--matcha-dark);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border-light);
+}
+
+.mobile-save-tip {
+  background: var(--cream);
+  border: 1.5px dashed var(--border-hover);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  text-align: left;
+}
