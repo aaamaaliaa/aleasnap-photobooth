@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import CameraPreview from './CameraPreview';
 import LivePhotoStrip from './LivePhotoStrip';
+import FrameSelectorModal from './FrameSelectorModal';
 import { useCamera } from '../../hooks/useCamera';
 import { PHOTO_LAYOUTS } from '../../constants/layouts';
 import { soundEffects } from '../../utils/audioBeep';
@@ -10,6 +11,7 @@ import './PhotoboothPage.css';
 
 export default function PhotoboothPage({
   selectedFrame,
+  onSelectFrame,
   onNavigateGallery,
   onNavigateHome,
   onProceedToEditor
@@ -39,6 +41,9 @@ export default function PhotoboothPage({
   const [activeSlotIndex, setActiveSlotIndex] = useState(0);
   const [countdown, setCountdown] = useState(null);
   const [isFlashing, setIsFlashing] = useState(false);
+
+  // Frame selector modal state
+  const [isFrameModalOpen, setIsFrameModalOpen] = useState(false);
 
   // Hidden file input ref for uploading photos
   const fileInputRef = useRef(null);
@@ -207,6 +212,17 @@ export default function PhotoboothPage({
         style={{ display: 'none' }}
       />
 
+      {/* Frame Selection Modal / Wardrobe */}
+      <FrameSelectorModal
+        isOpen={isFrameModalOpen}
+        onClose={() => setIsFrameModalOpen(false)}
+        currentFrame={selectedFrame}
+        onSelectFrame={(newFrame) => {
+          if (onSelectFrame) onSelectFrame(newFrame);
+          setIsFrameModalOpen(false);
+        }}
+      />
+
       {/* Top Bar Navigation & Active Frame */}
       <div className="photobooth-topbar">
         <button
@@ -223,14 +239,14 @@ export default function PhotoboothPage({
           <ArrowLeft size={18} /> Back to Home
         </button>
 
-        {/* Active Frame Indicator */}
+        {/* Active Frame Indicator with modal trigger */}
         <div className="photobooth-active-frame-pill">
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Frame:</span>
           <span style={{ fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             {selectedFrame?.title || 'Matcha Signature'} {selectedFrame?.stickerSample || '🍵'}
           </span>
           <button
-            onClick={onNavigateGallery}
+            onClick={() => setIsFrameModalOpen(true)}
             style={{
               background: 'none',
               border: 'none',
@@ -285,7 +301,7 @@ export default function PhotoboothPage({
           onUploadPhotos={() => triggerUpload(null)}
         />
 
-        {/* Right: Live Photo Strip with Real-Time Preview */}
+        {/* Right: Live Photo Strip with Real-Time Preview & Canvas Test */}
         <LivePhotoStrip
           selectedFrame={selectedFrame}
           layout={currentLayout}
@@ -296,6 +312,7 @@ export default function PhotoboothPage({
           onRetakeSingleSlot={retakeSingleSlot}
           onProceedToEditor={handleProceed}
           onUploadPhotos={() => triggerUpload(null)}
+          onOpenFrameSelector={() => setIsFrameModalOpen(true)}
         />
       </div>
     </div>

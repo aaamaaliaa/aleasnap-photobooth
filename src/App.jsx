@@ -31,7 +31,7 @@ export default function App() {
 
   const handleProceedToEditor = (data) => {
     setSessionData(data);
-    alert(`🎉 Sesi foto berhasil diambil (${data.photos.filter(Boolean).length} foto)! Siap untuk Tahap 4 (Frame Collection) dan Tahap 5 (Photo Editor & Canvas Strip).`);
+    alert(`🎉 Sesi foto berhasil diambil (${data.photos.filter(Boolean).length} foto)! Siap untuk Tahap 5 (Photo Editor & Canvas Strip).`);
   };
 
   return (
@@ -74,6 +74,7 @@ export default function App() {
         {activePage === PAGES.PHOTOBOOTH && (
           <PhotoboothPage
             selectedFrame={selectedFrame}
+            onSelectFrame={handleSelectFrame}
             onNavigateGallery={() => handleNavigate(PAGES.GALLERY)}
             onNavigateHome={() => handleNavigate(PAGES.HOME)}
             onProceedToEditor={handleProceedToEditor}

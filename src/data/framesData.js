@@ -8,6 +8,7 @@ export const FRAME_CATEGORIES = [
   { id: 'minimalist', label: 'Minimalist 🤍' },
   { id: 'y2k', label: 'Y2K Cyber 💿' },
   { id: 'doodle', label: 'Doodle & Playful ✏️' },
+  { id: 'seasonal', label: 'Seasonal & Holiday ❄️' },
   { id: 'colorful', label: 'Colorful Pop 🎨' },
 ];
 
@@ -24,7 +25,13 @@ export const FRAMES_LIST = [
     tags: ['Matcha', 'Cute', 'Signature'],
     isPopular: true,
     stickerSample: '🍵',
-    slots: 3
+    slots: 4,
+    decorations: {
+      headerText: 'MATCHABOX • 말차',
+      footerStamp: 'FRESH MATCHA ♡',
+      stickers: ['🍵', '🍃', '✨', '💚'],
+      pattern: 'leaves'
+    }
   },
   {
     id: 'sakura-blossom',
@@ -38,7 +45,13 @@ export const FRAMES_LIST = [
     tags: ['Floral', 'Pink', 'Romantic'],
     isPopular: true,
     stickerSample: '🌸',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'SAKURA MOMENTS • 벚꽃',
+      footerStamp: 'SWEET BLOSSOM ♡',
+      stickers: ['🌸', '🌷', '🎀', '💖'],
+      pattern: 'dots'
+    }
   },
   {
     id: 'vintage-sepia-film',
@@ -52,7 +65,13 @@ export const FRAMES_LIST = [
     tags: ['Film', 'Analog', 'Nostalgia'],
     isPopular: true,
     stickerSample: '🎞️',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'ANALOG FILM 1998',
+      footerStamp: 'ISO 400 • EXPOSURE',
+      stickers: ['🎞️', '☕', '📜', '🕰️'],
+      pattern: 'sprockets'
+    }
   },
   {
     id: 'y2k-cyber-pop',
@@ -66,7 +85,13 @@ export const FRAMES_LIST = [
     tags: ['Y2K', 'Cyber', 'Pastel Violet'],
     isPopular: true,
     stickerSample: '💿',
-    slots: 3
+    slots: 4,
+    decorations: {
+      headerText: 'CYBER ANGEL 2000',
+      footerStamp: '★ PIXEL HEART ★',
+      stickers: ['💿', '👾', '✨', '💜'],
+      pattern: 'grid'
+    }
   },
   {
     id: 'minimal-cream',
@@ -80,7 +105,13 @@ export const FRAMES_LIST = [
     tags: ['Clean', 'Minimal', 'Neutral'],
     isPopular: false,
     stickerSample: '🤍',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'STUDIO ESSENTIALS',
+      footerStamp: 'MINIMAL MEMORY',
+      stickers: ['🤍', '🕊️', '🌿'],
+      pattern: 'clean'
+    }
   },
   {
     id: 'doodle-bear-party',
@@ -94,7 +125,13 @@ export const FRAMES_LIST = [
     tags: ['Teddy', 'Cute', 'Warm'],
     isPopular: true,
     stickerSample: '🧸',
-    slots: 3
+    slots: 4,
+    decorations: {
+      headerText: 'BEAR & FRIENDS ♡',
+      footerStamp: 'WARM HUGS ONLY',
+      stickers: ['🧸', '🍪', '🍯', '🐾'],
+      pattern: 'dots'
+    }
   },
   {
     id: 'retro-arcade',
@@ -108,7 +145,13 @@ export const FRAMES_LIST = [
     tags: ['Pixel', 'Retro', 'Arcade'],
     isPopular: false,
     stickerSample: '👾',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'LEVEL UP! • INSERT COIN',
+      footerStamp: 'HIGH SCORE 99999',
+      stickers: ['👾', '🕹️', '⭐', '⚡'],
+      pattern: 'grid'
+    }
   },
   {
     id: 'doodle-crayon-sky',
@@ -122,7 +165,13 @@ export const FRAMES_LIST = [
     tags: ['Doodle', 'Clouds', 'Blue'],
     isPopular: false,
     stickerSample: '☁️',
-    slots: 3
+    slots: 4,
+    decorations: {
+      headerText: 'DAYDREAM CLOUDS',
+      footerStamp: 'STAY DREAMY ♡',
+      stickers: ['☁️', '🌈', '⭐', '🎈'],
+      pattern: 'dots'
+    }
   },
   {
     id: 'colorful-butter-pop',
@@ -136,7 +185,13 @@ export const FRAMES_LIST = [
     tags: ['Cheerful', 'Yellow', 'Summer'],
     isPopular: true,
     stickerSample: '🌼',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'SUNNY DAY VIBES ☀️',
+      footerStamp: 'SMILE BRIGHT ♡',
+      stickers: ['🌼', '🌻', '💛', '✨'],
+      pattern: 'dots'
+    }
   },
   {
     id: 'lavender-dream',
@@ -150,7 +205,53 @@ export const FRAMES_LIST = [
     tags: ['Floral', 'Purple', 'Dreamy'],
     isPopular: false,
     stickerSample: '💐',
-    slots: 3
+    slots: 4,
+    decorations: {
+      headerText: 'LAVENDER HAZE ♡',
+      footerStamp: 'SWEET REVERIE',
+      stickers: ['💐', '💜', '🌙', '✨'],
+      pattern: 'dots'
+    }
+  },
+  {
+    id: 'winter-snow-magic',
+    title: 'Winter Wonderland',
+    category: 'seasonal',
+    themeColor: '#5B92E5',
+    bgStyle: 'linear-gradient(135deg, #F0F7FF 0%, #D6EAFF 100%)',
+    borderColor: '#7BACF0',
+    textColor: '#1A4280',
+    description: 'Crisp winter wonderland with sparkling crystal snowflakes and icy pastel blues.',
+    tags: ['Seasonal', 'Winter', 'Snow'],
+    isPopular: true,
+    stickerSample: '❄️',
+    slots: 4,
+    decorations: {
+      headerText: 'WINTER HOLIDAYS • 눈꽃',
+      footerStamp: 'WARM COZY WINTER ♡',
+      stickers: ['❄️', '⛄', '🧤', '☕'],
+      pattern: 'dots'
+    }
+  },
+  {
+    id: 'autumn-maple-warmth',
+    title: 'Autumn Maple Breeze',
+    category: 'seasonal',
+    themeColor: '#C45B28',
+    bgStyle: 'linear-gradient(135deg, #FFF4ED 0%, #FED9C6 100%)',
+    borderColor: '#E58557',
+    textColor: '#662708',
+    description: 'Cozy autumn fallen maple leaves, warm spiced cider tones, and amber borders.',
+    tags: ['Seasonal', 'Autumn', 'Cozy'],
+    isPopular: false,
+    stickerSample: '🍁',
+    slots: 4,
+    decorations: {
+      headerText: 'AUTUMN MEMORIES • 단풍',
+      footerStamp: 'FALL IN LOVE ♡',
+      stickers: ['🍁', '🍂', '🌰', '🧣'],
+      pattern: 'dots'
+    }
   },
   {
     id: 'mono-newspaper',
@@ -164,7 +265,13 @@ export const FRAMES_LIST = [
     tags: ['Editorial', 'Monochrome', 'Vintage'],
     isPopular: false,
     stickerSample: '📰',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'THE SEOUL DAILY GAZETTE',
+      footerStamp: 'EDITION NO. 1024',
+      stickers: ['📰', '🗞️', '🖋️', '☕'],
+      pattern: 'clean'
+    }
   },
   {
     id: 'cyber-matrix-grid',
@@ -178,6 +285,37 @@ export const FRAMES_LIST = [
     tags: ['Y2K', 'Cyber', 'Prism'],
     isPopular: false,
     stickerSample: '🦋',
-    slots: 4
+    slots: 4,
+    decorations: {
+      headerText: 'DIGITAL PARADISE 2.0',
+      footerStamp: 'CYBER BUTTERFLY ♡',
+      stickers: ['🦋', '💿', '🌐', '💎'],
+      pattern: 'grid'
+    }
   }
 ];
+
+// Helper to register a new frame easily at runtime (e.g., from custom user uploads or reference images)
+export function createCustomFrame({ id, title, category = 'cute', themeColor = '#769864', bgStyle, borderColor, textColor, description = '', stickers = ['✨'], imageOverlayUrl = null }) {
+  return {
+    id: id || `custom-frame-${Date.now()}`,
+    title: title || 'Custom Frame',
+    category,
+    themeColor,
+    bgStyle: bgStyle || `linear-gradient(135deg, #FFFFFF 0%, #F5F8F2 100%)`,
+    borderColor: borderColor || themeColor,
+    textColor: textColor || '#2C3527',
+    description,
+    tags: ['Custom', category],
+    isPopular: false,
+    stickerSample: stickers[0] || '🎨',
+    slots: 4,
+    imageOverlayUrl,
+    decorations: {
+      headerText: title.toUpperCase(),
+      footerStamp: 'SPECIAL EDITION ♡',
+      stickers,
+      pattern: 'clean'
+    }
+  };
+}

@@ -1,5 +1,6 @@
-import React from 'react';
-import { RotateCcw, Check, Sparkles, ArrowRight, Upload } from 'lucide-react';
+import React, { useState } from 'react';
+import { RotateCcw, Check, Sparkles, ArrowRight, Upload, Image as ImageIcon, Eye } from 'lucide-react';
+import { renderPhotoStripCanvas } from '../../utils/canvasRenderer';
 
 export default function LivePhotoStrip({
   selectedFrame,
@@ -10,8 +11,12 @@ export default function LivePhotoStrip({
   onRetakeAll,
   onRetakeSingleSlot,
   onProceedToEditor,
-  onUploadPhotos
+  onUploadPhotos,
+  onOpenFrameSelector
 }) {
+  const [canvasModalUrl, setCanvasModalUrl] = useState(null);
+  const [isRenderingCanvas, setIsRenderingCanvas] = useState(false);
+
   const isGrid = layout.type === 'grid';
   const totalSlots = layout.slots;
   const isCompleted = capturedPhotos.filter(Boolean).length === totalSlots && !isSessionActive;
@@ -22,6 +27,22 @@ export default function LivePhotoStrip({
     year: 'numeric'
   }).toUpperCase();
 
+  const handleTestCanvasRender = async () => {
+    setIsRenderingCanvas(true);
+    try {
+      const url = await renderPhotoStripCanvas({
+        photos: capturedPhotos,
+        frame: selectedFrame,
+        layout: layout
+      });
+      setCanvasModalUrl(url);
+    } catch (err) {
+      console.error('Canvas render error:', err);
+    } finally {
+      setIsRenderingCanvas(false);
+    }
+  };
+
   return (
     <div className="live-strip-stage">
       <div className="live-strip-header">
@@ -29,9 +50,19 @@ export default function LivePhotoStrip({
           <span>Live Photo Strip</span>
           <span>{selectedFrame?.stickerSample || '🍵'}</span>
         </div>
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-          {capturedPhotos.filter(Boolean).length}/{totalSlots} shots
-        </span>
+        <button
+          onClick={onOpenFrameSelector}
+          style={{
+            fontSize: '0.8rem',
+            color: 'var(--matcha-primary)',
+            fontWeight: 700,
+            background: 'var(--matcha-soft)',
+            padding: '3px 8px',
+            borderRadius: '12px'
+          }}
+        >
+          Ganti Frame
+        </button>
       </div>
 
       {/* The Styled Frame Strip Preview */}
@@ -42,12 +73,14 @@ export default function LivePhotoStrip({
           border: `3px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--matcha-primary)'}`
         }}
       >
-        {/* Strip Header Brand */}
+        {/* Strip Header Brand & Stickers */}
         <div 
           className="live-strip-brand"
-          style={{ color: selectedFrame?.textColor || 'var(--text-main)' }}
+          style={{ color: selectedFrame?.textColor || 'var(--text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
         >
-          MatchaBox • {selectedFrame?.title || 'Studio'}
+          <span>{selectedFrame?.decorations?.stickers?.[0] || '✨'}</span>
+          <span>{selectedFrame?.decorations?.headerText || selectedFrame?.title || 'MatchaBox'}</span>
+          <span>{selectedFrame?.decorations?.stickers?.[1] || '♡'}</span>
         </div>
 
         {/* Dynamic Slots (Vertical or Grid) */}
@@ -103,8 +136,24 @@ export default function LivePhotoStrip({
           color: selectedFrame?.textColor || 'var(--text-muted)'
         }}>
           <span>{todayFormatted}</span>
-          <span style={{ fontWeight: 700 }}>MATCHABOX ♡</span>
+          <span style={{ fontWeight: 700 }}>
+            {selectedFrame?.decorations?.footerStamp || 'MATCHABOX ♡'}
+          </span>
         </div>
+      </div>
+
+      {/* Canvas Render Verification Button */}
+      <div style={{ marginTop: '0.85rem', width: '100%' }}>
+        <button
+          onClick={handleTestCanvasRender}
+          disabled={isRenderingCanvas || capturedPhotos.filter(Boolean).length === 0}
+          className="btn btn-secondary"
+          style={{ width: '100%', fontSize: '0.8rem', padding: '0.45rem' }}
+          title="Uji render foto dan frame langsung ke Canvas API"
+        >
+          <Eye size={14} />
+          {isRenderingCanvas ? 'Rendering Canvas...' : 'Uji Render Canvas Asli'}
+        </button>
       </div>
 
       {/* Post-Session Controls when all photos are ready */}
@@ -133,7 +182,7 @@ export default function LivePhotoStrip({
 
       {/* Manual Upload Option if user wants to swap photos */}
       {!isSessionActive && (
-        <div style={{ marginTop: '1rem', width: '100%', textAlign: 'center' }}>
+        <div style={{ marginTop: '0.75rem', width: '100%', textAlign: 'center' }}>
           <button
             onClick={onUploadPhotos}
             style={{
@@ -148,6 +197,55 @@ export default function LivePhotoStrip({
             <Upload size={13} />
             Upload foto dari galeri
           </button>
+        </div>
+      )}
+
+      {/* Canvas Preview Modal */}
+      {canvasModalUrl && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 1100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem'
+          }}
+          onClick={() => setCanvasModalUrl(null)}
+        >
+          <div 
+            style={{
+              background: 'white',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.5rem',
+              maxWidth: '450px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              textAlign: 'center'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ marginBottom: '0.5rem', color: 'var(--matcha-dark)' }}>
+              Hasil Render HTML5 Canvas
+            </h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              Frame <strong>{selectedFrame?.title}</strong> berhasil di-render bersama foto pada Canvas beresolusi tinggi.
+            </p>
+            <img 
+              src={canvasModalUrl} 
+              alt="Canvas Strip Result" 
+              style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', marginBottom: '1rem' }} 
+            />
+            <button 
+              className="btn btn-primary"
+              onClick={() => setCanvasModalUrl(null)}
+              style={{ width: '100%', fontSize: '0.9rem' }}
+            >
+              Tutup Preview Canvas
+            </button>
+          </div>
         </div>
       )}
     </div>
