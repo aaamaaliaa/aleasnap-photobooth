@@ -17,8 +17,7 @@ import {
   RefreshCw, 
   Settings,
   ShieldCheck,
-  Zap,
-  HelpCircle
+  Download
 } from 'lucide-react';
 import './QrModal.css';
 
@@ -28,50 +27,40 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
   const [rawCloudinaryUrl, setRawCloudinaryUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [copied, setCopied] = useState(false);
-  const [isDemoMode, setIsDemoMode] = useState(false);
-  const [showGuide, setShowGuide] = useState(false);
 
-  // In-modal configuration form inputs
+  // In-modal optional configuration form inputs
   const [inputCloudName, setInputCloudName] = useState('');
   const [inputPreset, setInputPreset] = useState('');
-  const [isInputNumericWarning, setIsInputNumericWarning] = useState(false);
 
-  // Load initial configuration
+  // Load existing config if any
   useEffect(() => {
     const config = getCloudinaryConfig();
     setInputCloudName(config.cloudName || '');
     setInputPreset(config.uploadPreset || '');
   }, [isOpen]);
 
+  // Seamless Automatic Upload: No setup required!
   const initiateUpload = async () => {
     if (!renderedImageUrl) return;
 
     setStatus('uploading');
     setErrorMessage('');
-    setIsDemoMode(false);
 
-    const res = await uploadToCloudinary(renderedImageUrl);
+    const config = getCloudinaryConfig();
+    let res = null;
 
-    if (res.success) {
-      setRawCloudinaryUrl(res.url);
-      const mobilePageUrl = `${window.location.origin}/?photo=${encodeURIComponent(res.url)}`;
-      setDownloadTargetUrl(mobilePageUrl);
-      setStatus('success');
-    } else if (res.notConfigured) {
-      setStatus('not_configured');
+    // 1. If valid Cloudinary credentials exist, try Cloudinary first
+    if (config.isConfigured && !/^\d{8,}$/.test(config.cloudName)) {
+      res = await uploadToCloudinary(renderedImageUrl);
+      // If Cloudinary fails, fallback to automatic instant host so QR code always appears!
+      if (!res.success) {
+        console.warn('Cloudinary upload issue, fallback to instant free host:', res.error);
+        res = await uploadToDemoHost(renderedImageUrl);
+      }
     } else {
-      setStatus('error');
-      setErrorMessage(res.error || 'Terjadi kesalahan saat mengunggah foto ke Cloudinary.');
+      // 2. Zero-setup instant host (100% free, no account, no API key needed)
+      res = await uploadToDemoHost(renderedImageUrl);
     }
-  };
-
-  // Instant demo upload fallback (no registration needed)
-  const handleInstantDemoUpload = async () => {
-    setStatus('uploading');
-    setErrorMessage('');
-    setIsDemoMode(true);
-
-    const res = await uploadToDemoHost(renderedImageUrl);
 
     if (res.success) {
       setRawCloudinaryUrl(res.url);
@@ -80,7 +69,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
       setStatus('success');
     } else {
       setStatus('error');
-      setErrorMessage(res.error || 'Server demo sementara tidak merespons.');
+      setErrorMessage(res.error || 'Gagal menyiapkan QR Code. Pastikan koneksi internet Anda aktif.');
     }
   };
 
@@ -98,24 +87,23 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const handleCloudNameChange = (val) => {
-    setInputCloudName(val);
-    // Warning if user enters purely numbers (API key)
-    setIsInputNumericWarning(/^\d{8,}$/.test(val.trim()));
-  };
-
   const handleSaveConfigAndRetry = (e) => {
     e.preventDefault();
     if (!inputCloudName.trim() || !inputPreset.trim()) {
       alert('Harap isi Cloud Name dan Upload Preset.');
       return;
     }
-    if (/^\d{8,}$/.test(inputCloudName.trim())) {
-      alert('Perhatian: Kolom Cloud Name tidak boleh diisi dengan API Key (deretan angka). Masukkan Cloud Name akun Anda (contoh: dxy123abc).');
-      return;
-    }
     saveCloudinaryConfig(inputCloudName, inputPreset);
     initiateUpload();
+  };
+
+  const handleDirectDownload = () => {
+    const link = document.createElement('a');
+    link.href = renderedImageUrl;
+    link.download = `ALEASNAP_${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -139,15 +127,15 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
             <div className="qr-loading-box">
               <div className="qr-spinner"></div>
               <h4 style={{ color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>
-                {isDemoMode ? 'Mengunggah ke Server Demo...' : 'Menyimpan Foto ke Cloudinary...'}
+                Menyiapkan QR Code...
               </h4>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Sedang memproses photo strip beresolusi tinggi dan menyiapkan QR Code instan.
+                Sedang memproses photo strip dan membuat QR Code instan untuk HP Anda.
               </p>
             </div>
           )}
 
-          {/* 2. Success State: Real QR Code */}
+          {/* 2. Success State: Real QR Code Always Appears */}
           {status === 'success' && (
             <>
               <div className="qr-code-box">
@@ -163,10 +151,10 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
 
               <div className="qr-instructions">
                 <p style={{ fontWeight: 600, color: 'var(--burgundy-deep)', marginBottom: '0.3rem' }}>
-                  Buka Kamera HP & Arahkan ke QR Code
+                  Arahkan Kamera HP ke QR Code di Atas
                 </p>
                 <p>
-                  Smartphone Anda akan diarahkan ke halaman unduh khusus untuk menyimpan photo strip langsung ke Galeri Foto ponsel.
+                  Ponsel Anda akan otomatis membuka halaman foto untuk menyimpan photo strip langsung ke Galeri Foto HP.
                 </p>
               </div>
 
@@ -194,74 +182,34 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                   </button>
 
                   <button
-                    className="btn"
-                    onClick={() => setStatus('not_configured')}
-                    style={{ fontSize: '0.8rem', padding: '0.4rem 0.9rem', color: 'var(--text-muted)' }}
+                    className="btn btn-secondary"
+                    onClick={handleDirectDownload}
+                    style={{ fontSize: '0.8rem', padding: '0.4rem 0.9rem' }}
                   >
-                    <Settings size={14} />
-                    Ubah Akun Cloudinary
+                    <Download size={14} />
+                    Download Langsung ke Laptop
                   </button>
                 </div>
               </div>
 
               <div style={{ fontSize: '0.75rem', color: 'var(--text-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <ShieldCheck size={14} color="var(--burgundy-deep)" />
-                {isDemoMode ? 'Mode Demo Aktif • Siap di-scan & diunduh' : 'Cloudinary Unsigned Storage Aman • Tanpa API Secret'}
+                QR Code Siap Digunakan Tanpa Perlu Setup Akun
               </div>
             </>
           )}
 
-          {/* 3. Not Configured / Edit Settings State */}
+          {/* 3. Optional Cloudinary Settings Form */}
           {status === 'not_configured' && (
             <div style={{ width: '100%', textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--burgundy-wine)', marginBottom: '0.75rem' }}>
                 <Settings size={20} />
-                <h4 style={{ margin: 0, fontFamily: 'var(--font-serif)' }}>Pengaturan Cloudinary (Unsigned Upload)</h4>
+                <h4 style={{ margin: 0, fontFamily: 'var(--font-serif)' }}>Pengaturan Cloudinary (Opsional)</h4>
               </div>
               
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.85rem', lineHeight: '1.5' }}>
-                Masukkan <strong>Cloud Name</strong> dan <strong>Upload Preset (Unsigned)</strong> dari akun Cloudinary Anda agar foto tersimpan secara online dan bisa di-scan dari HP mana pun.
+                Jika Anda ingin menyimpan ke akun Cloudinary pribadi, masukkan Cloud Name dan Preset Unsigned di bawah. Jika tidak, QR Code bisa langsung digunakan secara otomatis.
               </p>
-
-              {/* Step-by-Step Guide Toggle */}
-              <div style={{ marginBottom: '1rem' }}>
-                <button
-                  type="button"
-                  onClick={() => setShowGuide(!showGuide)}
-                  style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--burgundy-deep)',
-                    fontWeight: 600,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    cursor: 'pointer',
-                    textDecoration: 'underline'
-                  }}
-                >
-                  <HelpCircle size={14} />
-                  {showGuide ? 'Sembunyikan Panduan Cloudinary' : 'Lihat Cara Menemukan Cloud Name & Unsigned Preset'}
-                </button>
-
-                {showGuide && (
-                  <div style={{
-                    marginTop: '0.6rem',
-                    padding: '0.75rem',
-                    background: 'var(--soft-ivory)',
-                    borderRadius: '8px',
-                    border: '1px solid var(--dusty-rose)',
-                    fontSize: '0.8rem',
-                    color: 'var(--text-muted)',
-                    lineHeight: '1.5'
-                  }}>
-                    <strong style={{ color: 'var(--burgundy-deep)', display: 'block', marginBottom: '4px' }}>1. Cloud Name (Bukan API Key):</strong>
-                    Lihat di dashboard <a href="https://cloudinary.com/console" target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', color: 'var(--burgundy-wine)' }}>Cloudinary Console</a> di pojok kiri atas bertuliskan <em>"Cloud name"</em> (biasanya teks unik seperti <code>dyxabcdef</code>). <u>Jangan masukkan API Key (angka panjang)</u>.
-                    
-                    <strong style={{ color: 'var(--burgundy-deep)', display: 'block', marginTop: '6px', marginBottom: '4px' }}>2. Upload Preset (Wajib Unsigned):</strong>
-                    Buka menu <em>Settings (ikon gerigi)</em> &gt; pilih tab <em>Upload</em> &gt; scroll ke bawah ke bagian <em>Upload presets</em> &gt; klik <em>Add upload preset</em>. Pastikan kolom <strong>Signing Mode</strong> diubah dari <em>Signed</em> menjadi <strong>Unsigned</strong> &gt; klik Save. Masukkan nama preset tersebut ke kolom di bawah.
-                  </div>
-                )}
-              </div>
 
               <form onSubmit={handleSaveConfigAndRetry} className="qr-config-form">
                 <div>
@@ -273,15 +221,9 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                     required
                     placeholder="Masukkan Cloud Name (teks)"
                     value={inputCloudName}
-                    onChange={(e) => handleCloudNameChange(e.target.value)}
+                    onChange={(e) => setInputCloudName(e.target.value)}
                     className="qr-config-input"
                   />
-                  {isInputNumericWarning && (
-                    <div style={{ color: '#9E2A2B', fontSize: '0.75rem', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <AlertCircle size={13} />
-                      Nilai ini adalah angka API Key! Masukkan nama cloud (Cloud name) di dashboard akun Anda.
-                    </div>
-                  )}
                 </div>
 
                 <div>
@@ -304,26 +246,19 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                     className="btn btn-primary"
                     style={{ flex: 1, fontSize: '0.9rem', padding: '0.7rem' }}
                   >
-                    Simpan & Buat QR Code
+                    Simpan Akun
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={initiateUpload}
+                    style={{ fontSize: '0.9rem', padding: '0.7rem' }}
+                  >
+                    Pakai Mode Otomatis
                   </button>
                 </div>
               </form>
-
-              {/* Instant Demo Option */}
-              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px dashed var(--dusty-rose)', textAlign: 'center' }}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
-                  Belum punya akun Cloudinary? Anda tetap bisa menguji QR Code sekarang juga:
-                </p>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleInstantDemoUpload}
-                  style={{ width: '100%', fontSize: '0.85rem', padding: '0.6rem', gap: '0.4rem' }}
-                >
-                  <Zap size={16} color="var(--burgundy-deep)" />
-                  Gunakan Mode Demo Instan (Coba Scan Sekarang)
-                </button>
-              </div>
             </div>
           )}
 
@@ -332,7 +267,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem', width: '100%' }}>
               <AlertCircle size={42} color="var(--burgundy-wine)" />
               <h4 style={{ color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)', fontSize: '1.15rem' }}>
-                Gagal Mengunggah ke Cloudinary
+                Kendala Koneksi Internet
               </h4>
               
               <div style={{
@@ -347,27 +282,26 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                 width: '100%',
                 maxWidth: '420px'
               }}>
-                <strong>Penyebab:</strong> {errorMessage}
+                {errorMessage}
               </div>
 
               <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
                 <button
                   className="btn btn-primary"
-                  onClick={() => setStatus('not_configured')}
+                  onClick={initiateUpload}
                   style={{ fontSize: '0.85rem', padding: '0.6rem 1.2rem' }}
                 >
-                  <Settings size={14} />
-                  Perbaiki Cloud Name / Preset
+                  <RefreshCw size={14} />
+                  Coba Buat QR Lagi
                 </button>
 
                 <button 
                   className="btn btn-secondary"
-                  onClick={handleInstantDemoUpload}
+                  onClick={handleDirectDownload}
                   style={{ fontSize: '0.85rem', padding: '0.6rem 1.2rem', gap: '0.4rem' }}
-                  title="Coba buat QR Code sekarang menggunakan server demo gratis tanpa konfigurasi"
                 >
-                  <Zap size={15} color="var(--burgundy-deep)" />
-                  Coba Mode Demo Instan
+                  <Download size={15} color="var(--burgundy-deep)" />
+                  Download Langsung (Tanpa QR)
                 </button>
               </div>
             </div>
