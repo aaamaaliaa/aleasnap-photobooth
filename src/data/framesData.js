@@ -1,18 +1,74 @@
 // Centralized frame collection with diverse themes and colors (not only green)
 export const FRAME_CATEGORIES = [
   { id: 'all', label: 'All Frames' },
-  { id: 'cute', label: 'Cute & Kawaii 🧸' },
+  { id: 'special', label: 'Special Edition ⭐' },
+  { id: 'cute', label: 'Cute & Coquette 🎀' },
+  { id: 'vintage', label: 'Vintage & Retro 📷' },
   { id: 'floral', label: 'Floral & Nature 🌸' },
-  { id: 'vintage', label: 'Vintage & Film 🎞️' },
-  { id: 'retro', label: 'Retro 90s 📼' },
-  { id: 'minimalist', label: 'Minimalist 🤍' },
-  { id: 'y2k', label: 'Y2K Cyber 💿' },
+  { id: 'minimalist', label: 'Minimalist Clean 🤍' },
+  { id: 'y2k', label: 'Y2K Aesthetic 💿' },
   { id: 'doodle', label: 'Doodle & Playful ✏️' },
-  { id: 'seasonal', label: 'Seasonal & Holiday ❄️' },
   { id: 'colorful', label: 'Colorful Pop 🎨' },
 ];
 
 export const FRAMES_LIST = [
+  // 1. User Reference: Cherry Coquette & Chibi Girl
+  {
+    id: 'cherry-coquette',
+    title: 'Cherry Coquette Chibi',
+    category: 'cute',
+    themeColor: '#871626',
+    bgStyle: 'linear-gradient(135deg, #7A1220 0%, #520B15 100%)',
+    borderColor: '#871626',
+    textColor: '#FFFFFF',
+    description: 'Polka dot burgundy dengan chibi girl, gingham heart, dan cherry bow accents.',
+    tags: ['Special Edition', 'Cherry', 'Coquette', 'Chibi'],
+    isPopular: true,
+    stickerSample: '🍒',
+    slots: 3,
+    imageOverlayUrl: '/frames/cherry_coquette_cutout.png',
+    previewThumbUrl: '/frames/cherry_coquette_strip.png',
+    slotCoords: [
+      { x: 55, y: 101, w: 252, h: 185 },
+      { x: 55, y: 306, w: 252, h: 183 },
+      { x: 55, y: 510, w: 252, h: 177 }
+    ],
+    sourceDimensions: { w: 576, h: 1024 },
+    decorations: {
+      headerText: 'CHERRY COQUETTE',
+      footerStamp: 'STRAWBERRY MILK ♡'
+    }
+  },
+
+  // 2. User Reference: Retro Airmail & Polaroid
+  {
+    id: 'airmail-polaroid',
+    title: 'Retro Airmail & Polaroid',
+    category: 'vintage',
+    themeColor: '#B23A2B',
+    bgStyle: 'linear-gradient(135deg, #F8F5EF 0%, #E8E2D6 100%)',
+    borderColor: '#3B5998',
+    textColor: '#273322',
+    description: 'Surat pos udara klasik dengan kamera Polaroid OneStep, telepon retro, dan stempel pos.',
+    tags: ['Special Edition', 'Polaroid', 'Airmail', 'Retro'],
+    isPopular: true,
+    stickerSample: '📷',
+    slots: 3,
+    imageOverlayUrl: '/frames/airmail_polaroid_cutout.png',
+    previewThumbUrl: '/frames/airmail_polaroid_strip.png',
+    slotCoords: [
+      { x: 198, y: 286, w: 170, h: 137 },
+      { x: 198, y: 432, w: 170, h: 138 },
+      { x: 198, y: 580, w: 170, h: 137 }
+    ],
+    sourceDimensions: { w: 576, h: 1024 },
+    decorations: {
+      headerText: 'AIRMAIL POSTCARD',
+      footerStamp: 'ONE STEP POLAROID'
+    }
+  },
+
+  // 3. Signature Matcha Green
   {
     id: 'matcha-classic',
     title: 'Matcha Signature',
@@ -21,18 +77,18 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #E9F2E2 0%, #D4E6C7 100%)',
     borderColor: '#769864',
     textColor: '#334426',
-    description: 'Fresh matcha aesthetic with cute leaf motifs & minimal Korean typography.',
-    tags: ['Matcha', 'Cute', 'Signature'],
+    description: 'Fresh matcha aesthetic with clean Korean photobooth typography.',
+    tags: ['Matcha', 'Clean', 'Signature'],
     isPopular: true,
     stickerSample: '🍵',
     slots: 4,
     decorations: {
       headerText: 'MATCHABOX • 말차',
-      footerStamp: 'FRESH MATCHA ♡',
-      stickers: ['🍵', '🍃', '✨', '💚'],
-      pattern: 'leaves'
+      footerStamp: 'SEOUL MEMORIES'
     }
   },
+
+  // 4. Sakura Petals
   {
     id: 'sakura-blossom',
     title: 'Sakura Petals',
@@ -48,11 +104,11 @@ export const FRAMES_LIST = [
     slots: 4,
     decorations: {
       headerText: 'SAKURA MOMENTS • 벚꽃',
-      footerStamp: 'SWEET BLOSSOM ♡',
-      stickers: ['🌸', '🌷', '🎀', '💖'],
-      pattern: 'dots'
+      footerStamp: 'SPRING BLOSSOM'
     }
   },
+
+  // 5. 1998 Analog Film
   {
     id: 'vintage-sepia-film',
     title: '1998 Analog Film',
@@ -68,11 +124,11 @@ export const FRAMES_LIST = [
     slots: 4,
     decorations: {
       headerText: 'ANALOG FILM 1998',
-      footerStamp: 'ISO 400 • EXPOSURE',
-      stickers: ['🎞️', '☕', '📜', '🕰️'],
-      pattern: 'sprockets'
+      footerStamp: 'ISO 400 • EXPOSURE'
     }
   },
+
+  // 6. Y2K Cyber Heart
   {
     id: 'y2k-cyber-pop',
     title: 'Y2K Cyber Heart',
@@ -81,18 +137,18 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #F3EEFF 0%, #D8CEFF 100%)',
     borderColor: '#9381FF',
     textColor: '#3C2E77',
-    description: 'Holographic silver stars, chrome bubble hearts & cyber aesthetics.',
+    description: 'Holographic pastel violet with chrome bubble hearts and cyber aesthetics.',
     tags: ['Y2K', 'Cyber', 'Pastel Violet'],
     isPopular: true,
     stickerSample: '💿',
     slots: 4,
     decorations: {
       headerText: 'CYBER ANGEL 2000',
-      footerStamp: '★ PIXEL HEART ★',
-      stickers: ['💿', '👾', '✨', '💜'],
-      pattern: 'grid'
+      footerStamp: 'DIGITAL HEART'
     }
   },
+
+  // 7. Seoul Clean Ivory
   {
     id: 'minimal-cream',
     title: 'Seoul Clean Ivory',
@@ -108,71 +164,11 @@ export const FRAMES_LIST = [
     slots: 4,
     decorations: {
       headerText: 'STUDIO ESSENTIALS',
-      footerStamp: 'MINIMAL MEMORY',
-      stickers: ['🤍', '🕊️', '🌿'],
-      pattern: 'clean'
+      footerStamp: 'MINIMAL MEMORY'
     }
   },
-  {
-    id: 'doodle-bear-party',
-    title: 'Teddy Bear Picnic',
-    category: 'cute',
-    themeColor: '#D19C65',
-    bgStyle: 'linear-gradient(135deg, #FFF9F2 0%, #FFE9D1 100%)',
-    borderColor: '#E8B684',
-    textColor: '#573719',
-    description: 'Hand-drawn brown teddy bears, cookie doodles, and cheerful stickers.',
-    tags: ['Teddy', 'Cute', 'Warm'],
-    isPopular: true,
-    stickerSample: '🧸',
-    slots: 4,
-    decorations: {
-      headerText: 'BEAR & FRIENDS ♡',
-      footerStamp: 'WARM HUGS ONLY',
-      stickers: ['🧸', '🍪', '🍯', '🐾'],
-      pattern: 'dots'
-    }
-  },
-  {
-    id: 'retro-arcade',
-    title: 'Pixel Pixel Arcade',
-    category: 'retro',
-    themeColor: '#3A86FF',
-    bgStyle: 'linear-gradient(135deg, #EBF3FF 0%, #CCE3FE 100%)',
-    borderColor: '#3A86FF',
-    textColor: '#15356E',
-    description: '8-bit retro gaming motifs, neon arcade grid lines, and pixel heart sprites.',
-    tags: ['Pixel', 'Retro', 'Arcade'],
-    isPopular: false,
-    stickerSample: '👾',
-    slots: 4,
-    decorations: {
-      headerText: 'LEVEL UP! • INSERT COIN',
-      footerStamp: 'HIGH SCORE 99999',
-      stickers: ['👾', '🕹️', '⭐', '⚡'],
-      pattern: 'grid'
-    }
-  },
-  {
-    id: 'doodle-crayon-sky',
-    title: 'Crayon Clouds',
-    category: 'doodle',
-    themeColor: '#53A9E8',
-    bgStyle: 'linear-gradient(135deg, #EDF7FF 0%, #D2EDFF 100%)',
-    borderColor: '#6EBAF5',
-    textColor: '#1B4769',
-    description: 'Whimsical sky with hand-drawn puffy clouds, stars, and rainbow doodles.',
-    tags: ['Doodle', 'Clouds', 'Blue'],
-    isPopular: false,
-    stickerSample: '☁️',
-    slots: 4,
-    decorations: {
-      headerText: 'DAYDREAM CLOUDS',
-      footerStamp: 'STAY DREAMY ♡',
-      stickers: ['☁️', '🌈', '⭐', '🎈'],
-      pattern: 'dots'
-    }
-  },
+
+  // 8. Sunshine Butter Pop
   {
     id: 'colorful-butter-pop',
     title: 'Sunshine Butter Pop',
@@ -181,78 +177,38 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #FFFDE8 0%, #FFF2A6 100%)',
     borderColor: '#FFD700',
     textColor: '#5E4700',
-    description: 'Vibrant cheerful butter yellow with smiley faces, daisy flowers, and pops of color.',
+    description: 'Vibrant cheerful butter yellow with clean minimal borders and sunny energy.',
     tags: ['Cheerful', 'Yellow', 'Summer'],
     isPopular: true,
-    stickerSample: '🌼',
+    stickerSample: '☀️',
     slots: 4,
     decorations: {
-      headerText: 'SUNNY DAY VIBES ☀️',
-      footerStamp: 'SMILE BRIGHT ♡',
-      stickers: ['🌼', '🌻', '💛', '✨'],
-      pattern: 'dots'
+      headerText: 'SUNNY DAY VIBES',
+      footerStamp: 'SMILE BRIGHT'
     }
   },
-  {
-    id: 'lavender-dream',
-    title: 'Lavender Dreamscape',
-    category: 'floral',
-    themeColor: '#8E7DBE',
-    bgStyle: 'linear-gradient(135deg, #F8F5FF 0%, #E7DCFC 100%)',
-    borderColor: '#B9A7E8',
-    textColor: '#403361',
-    description: 'Calm lavender haze with delicate pressed botanicals and dreamy sparkle elements.',
-    tags: ['Floral', 'Purple', 'Dreamy'],
-    isPopular: false,
-    stickerSample: '💐',
-    slots: 4,
-    decorations: {
-      headerText: 'LAVENDER HAZE ♡',
-      footerStamp: 'SWEET REVERIE',
-      stickers: ['💐', '💜', '🌙', '✨'],
-      pattern: 'dots'
-    }
-  },
+
+  // 9. Winter Wonderland
   {
     id: 'winter-snow-magic',
     title: 'Winter Wonderland',
-    category: 'seasonal',
+    category: 'cute',
     themeColor: '#5B92E5',
     bgStyle: 'linear-gradient(135deg, #F0F7FF 0%, #D6EAFF 100%)',
     borderColor: '#7BACF0',
     textColor: '#1A4280',
-    description: 'Crisp winter wonderland with sparkling crystal snowflakes and icy pastel blues.',
-    tags: ['Seasonal', 'Winter', 'Snow'],
-    isPopular: true,
+    description: 'Crisp winter wonderland with sparkling icy pastel blues.',
+    tags: ['Winter', 'Snow', 'Pastel Blue'],
+    isPopular: false,
     stickerSample: '❄️',
     slots: 4,
     decorations: {
       headerText: 'WINTER HOLIDAYS • 눈꽃',
-      footerStamp: 'WARM COZY WINTER ♡',
-      stickers: ['❄️', '⛄', '🧤', '☕'],
-      pattern: 'dots'
+      footerStamp: 'WARM COZY WINTER'
     }
   },
-  {
-    id: 'autumn-maple-warmth',
-    title: 'Autumn Maple Breeze',
-    category: 'seasonal',
-    themeColor: '#C45B28',
-    bgStyle: 'linear-gradient(135deg, #FFF4ED 0%, #FED9C6 100%)',
-    borderColor: '#E58557',
-    textColor: '#662708',
-    description: 'Cozy autumn fallen maple leaves, warm spiced cider tones, and amber borders.',
-    tags: ['Seasonal', 'Autumn', 'Cozy'],
-    isPopular: false,
-    stickerSample: '🍁',
-    slots: 4,
-    decorations: {
-      headerText: 'AUTUMN MEMORIES • 단풍',
-      footerStamp: 'FALL IN LOVE ♡',
-      stickers: ['🍁', '🍂', '🌰', '🧣'],
-      pattern: 'dots'
-    }
-  },
+
+  // 10. Vintage Gazette Newspaper
   {
     id: 'mono-newspaper',
     title: 'Vintage Gazette',
@@ -268,35 +224,12 @@ export const FRAMES_LIST = [
     slots: 4,
     decorations: {
       headerText: 'THE SEOUL DAILY GAZETTE',
-      footerStamp: 'EDITION NO. 1024',
-      stickers: ['📰', '🗞️', '🖋️', '☕'],
-      pattern: 'clean'
-    }
-  },
-  {
-    id: 'cyber-matrix-grid',
-    title: 'Holo Grid Prism',
-    category: 'y2k',
-    themeColor: '#00B4D8',
-    bgStyle: 'linear-gradient(135deg, #E8FBFF 0%, #CAF0F8 100%)',
-    borderColor: '#0096C7',
-    textColor: '#023E8A',
-    description: 'Iridescent holographic grid perspective with cyber butterfly accents.',
-    tags: ['Y2K', 'Cyber', 'Prism'],
-    isPopular: false,
-    stickerSample: '🦋',
-    slots: 4,
-    decorations: {
-      headerText: 'DIGITAL PARADISE 2.0',
-      footerStamp: 'CYBER BUTTERFLY ♡',
-      stickers: ['🦋', '💿', '🌐', '💎'],
-      pattern: 'grid'
+      footerStamp: 'EDITION NO. 1024'
     }
   }
 ];
 
-// Helper to register a new frame easily at runtime (e.g., from custom user uploads or reference images)
-export function createCustomFrame({ id, title, category = 'cute', themeColor = '#769864', bgStyle, borderColor, textColor, description = '', stickers = ['✨'], imageOverlayUrl = null }) {
+export function createCustomFrame({ id, title, category = 'cute', themeColor = '#769864', bgStyle, borderColor, textColor, description = '', imageOverlayUrl = null }) {
   return {
     id: id || `custom-frame-${Date.now()}`,
     title: title || 'Custom Frame',
@@ -308,14 +241,12 @@ export function createCustomFrame({ id, title, category = 'cute', themeColor = '
     description,
     tags: ['Custom', category],
     isPopular: false,
-    stickerSample: stickers[0] || '🎨',
+    stickerSample: '🎨',
     slots: 4,
     imageOverlayUrl,
     decorations: {
       headerText: title.toUpperCase(),
-      footerStamp: 'SPECIAL EDITION ♡',
-      stickers,
-      pattern: 'clean'
+      footerStamp: 'SPECIAL EDITION'
     }
   };
 }

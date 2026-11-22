@@ -1,10 +1,10 @@
 import React from 'react';
 import { FRAMES_LIST } from '../../data/framesData';
-import { Sparkles, ArrowRight, Heart } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import './FeaturedFrames.css';
 
 export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
-  // Take top 4-6 popular frames
+  // Take top 4 popular frames (Cherry Coquette, Airmail Polaroid, Matcha Signature, Sakura Petals)
   const featured = FRAMES_LIST.filter(f => f.isPopular).slice(0, 4);
 
   return (
@@ -16,7 +16,7 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
         </div>
         <h2 className="section-title">Featured Aesthetic Frames</h2>
         <p className="section-subtitle">
-          Choose from cute kawaii pastels, vintage film borders, Y2K retro, and signature matcha designs.
+          Pilihan frame favorit: Cherry Coquette Chibi, Retro Airmail Polaroid, Matcha Signature, dan Sakura Blossom.
         </p>
       </div>
 
@@ -28,19 +28,27 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
               className="frame-card-preview"
               style={{ background: frame.bgStyle }}
             >
-              <div 
-                className="frame-mini-strip"
-                style={{ border: `2px solid ${frame.borderColor}` }}
-              >
-                <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
-                  {frame.stickerSample}
-                </div>
-                {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
-                  <div key={idx} className="frame-mini-slot">
-                    <span>{idx === 0 ? '✨' : idx === 1 ? '📸' : '🤍'}</span>
+              {frame.previewThumbUrl ? (
+                <img 
+                  src={frame.previewThumbUrl} 
+                  alt={frame.title} 
+                  style={{ height: '90%', width: 'auto', borderRadius: '8px', objectFit: 'contain', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} 
+                />
+              ) : (
+                <div 
+                  className="frame-mini-strip"
+                  style={{ border: `2px solid ${frame.borderColor}` }}
+                >
+                  <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
+                    {frame.title}
                   </div>
-                ))}
-              </div>
+                  {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
+                    <div key={idx} className="frame-mini-slot">
+                      <span>{idx + 1}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Frame Details */}
@@ -59,12 +67,12 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
               <p className="frame-card-desc">{frame.description}</p>
 
               <div className="frame-card-footer">
-                <span className="frame-slots-badge">{frame.slots} Photo Slots</span>
+                <span className="frame-slots-badge">{frame.slots} Foto</span>
                 <button 
                   className="btn-select-frame"
                   onClick={() => onSelectFrame(frame)}
                 >
-                  Use Frame
+                  Gunakan Frame
                 </button>
               </div>
             </div>
@@ -78,7 +86,7 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
           onClick={onViewAllFrames}
           style={{ fontSize: '1rem', padding: '0.75rem 1.8rem' }}
         >
-          View All Frames Collection
+          Lihat Semua Koleksi Frame
           <ArrowRight size={18} />
         </button>
       </div>

@@ -8,22 +8,3 @@ export const PHOTO_FILTERS = [
   { id: 'sepia', label: 'Sepia Film', icon: '📜', cssFilter: 'sepia(85%)' },
   { id: 'vivid', label: 'Vivid Pop', icon: '🎨', cssFilter: 'saturate(150%) contrast(115%)' }
 ];
-
-export const STICKER_COLLECTIONS = [
-  {
-    category: 'Cute & Korean',
-    stickers: ['🫶', '✌️', '💖', '🎀', '🧸', '✨', '⭐', '🍒', '🍭', '🍓']
-  },
-  {
-    category: 'Matcha & Cafe',
-    stickers: ['🍵', '🍡', '🧋', '🍰', '🍪', '☕', '🥐', '🥞', '🍮', '🍩']
-  },
-  {
-    category: 'Nature & Floral',
-    stickers: ['🌸', '🌷', '🌿', '☁️', '🌈', '🌙', '🦋', '🌻', '🌼', '🐾']
-  },
-  {
-    category: 'Y2K & Fun',
-    stickers: ['💿', '👾', '🕶️', '⚡', '🎉', '🎈', '📸', '👑', '💌', '🤍']
-  }
-];

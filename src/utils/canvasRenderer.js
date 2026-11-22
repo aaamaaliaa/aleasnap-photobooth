@@ -1,4 +1,4 @@
-// Canvas rendering engine to draw high-resolution photo strips with full frame styles, stickers & layouts
+// Canvas rendering engine to draw high-resolution photo strips with clean frame styles & filters (Stickers removed per request)
 
 function loadImage(src) {
   return new Promise((resolve) => {
@@ -63,15 +63,63 @@ export async function renderPhotoStripCanvas({
   filter = 'none',
   brightness = 100,
   contrast = 100,
-  customText = '',
-  stickers = []
+  customText = ''
 }) {
+  // Preload photo images
+  const loadedPhotos = await Promise.all(photos.map(p => loadImage(p)));
+
+  // SPECIAL EDITION: Custom PNG Overlay Frames (Cherry Coquette, Airmail Polaroid, etc.)
+  if (frame?.imageOverlayUrl && frame?.slotCoords) {
+    const scale = 2; // 2x scale for 1152 x 2048 high definition
+    const canvasWidth = (frame.sourceDimensions?.w || 576) * scale;
+    const canvasHeight = (frame.sourceDimensions?.h || 1024) * scale;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+
+    // 1. Draw solid background
+    ctx.fillStyle = frame.themeColor || '#FFFFFF';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // 2. Draw user photos behind the cutout windows
+    frame.slotCoords.forEach((coord, idx) => {
+      const sx = coord.x * scale;
+      const sy = coord.y * scale;
+      const sw = coord.w * scale;
+      const sh = coord.h * scale;
+
+      renderSlot(ctx, loadedPhotos[idx], sx, sy, sw, sh, filter, brightness, contrast, idx + 1, 8);
+    });
+
+    // 3. Draw the custom frame artwork overlay directly ON TOP
+    const overlayImg = await loadImage(frame.imageOverlayUrl);
+    if (overlayImg) {
+      ctx.drawImage(overlayImg, 0, 0, canvasWidth, canvasHeight);
+    }
+
+    // 4. Optional custom text on bottom/top if specified
+    if (customText.trim()) {
+      ctx.font = 'bold 32px "Fredoka", sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+      ctx.shadowBlur = 8;
+      ctx.fillText(customText, canvasWidth / 2, canvasHeight - 40);
+      ctx.shadowBlur = 0;
+    }
+
+    return canvas.toDataURL('image/png', 0.95);
+  }
+
+  // PROGRAMMATIC FRAMES (Matcha Signature, Sakura, 1998 Film, etc.)
   const isGrid = layout?.type === 'grid';
   const slotsCount = layout?.slots || 4;
 
-  // High-res output dimensions
   const canvasWidth = isGrid ? 1200 : 800;
-  const canvasHeight = isGrid ? 1500 : 600 + (slotsCount * 480);
+  const canvasHeight = isGrid ? 1500 : 540 + (slotsCount * 460);
 
   const canvas = document.createElement('canvas');
   canvas.width = canvasWidth;
@@ -79,12 +127,11 @@ export async function renderPhotoStripCanvas({
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  // 1. Draw Background
   const themeColor = frame?.themeColor || '#769864';
   const borderColor = frame?.borderColor || '#769864';
   const textColor = frame?.textColor || '#273322';
 
-  // Create gradient background
+  // Background Gradient
   const bgGrad = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
   if (frame?.id === 'sakura-blossom') {
     bgGrad.addColorStop(0, '#FFF0F3');
@@ -101,14 +148,7 @@ export async function renderPhotoStripCanvas({
   } else if (frame?.id === 'winter-snow-magic') {
     bgGrad.addColorStop(0, '#F0F7FF');
     bgGrad.addColorStop(1, '#D6EAFF');
-  } else if (frame?.id === 'autumn-maple-warmth') {
-    bgGrad.addColorStop(0, '#FFF4ED');
-    bgGrad.addColorStop(1, '#FED9C6');
-  } else if (frame?.id === 'doodle-bear-party') {
-    bgGrad.addColorStop(0, '#FFF9F2');
-    bgGrad.addColorStop(1, '#FFE9D1');
   } else {
-    // Default Matcha / Natural
     bgGrad.addColorStop(0, '#F9FAF5');
     bgGrad.addColorStop(1, '#EBF2E3');
   }
@@ -116,36 +156,26 @@ export async function renderPhotoStripCanvas({
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-  // If custom frame image overlay exists, draw it
-  if (frame?.imageOverlayUrl) {
-    const overlayImg = await loadImage(frame.imageOverlayUrl);
-    if (overlayImg) {
-      ctx.drawImage(overlayImg, 0, 0, canvasWidth, canvasHeight);
-    }
-  }
-
-  // 2. Draw Outer Aesthetic Border
+  // Outer Border
   ctx.lineWidth = 14;
   ctx.strokeStyle = borderColor;
   drawRoundedRect(ctx, 16, 16, canvasWidth - 32, canvasHeight - 32, 28);
   ctx.stroke();
 
-  // Draw subtle inner dashed line
+  // Subtle inner border
   ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
-  ctx.setLineDash([8, 8]);
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
   drawRoundedRect(ctx, 32, 32, canvasWidth - 64, canvasHeight - 64, 20);
   ctx.stroke();
-  ctx.setLineDash([]); // reset dash
 
-  // 3. Draw Header Title & Brand
+  // Header Title
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const headerTitle = customText.trim() ? customText : (frame?.decorations?.headerText || 'MATCHABOX • KOREAN PHOTOBOOTH');
-  ctx.font = 'bold 34px "Fredoka", sans-serif';
+  const headerTitle = customText.trim() ? customText : (frame?.decorations?.headerText || 'MATCHABOX • PHOTOBOOTH');
+  ctx.font = 'bold 32px "Fredoka", sans-serif';
   ctx.fillStyle = textColor;
-  ctx.fillText(headerTitle, canvasWidth / 2, 75);
+  ctx.fillText(headerTitle, canvasWidth / 2, 70);
 
   const todayStr = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -153,30 +183,18 @@ export async function renderPhotoStripCanvas({
     year: 'numeric'
   }).toUpperCase();
 
-  ctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-  ctx.fillText(`${todayStr} • SEOUL MEMORIES`, canvasWidth / 2, 115);
+  ctx.font = '600 18px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+  ctx.fillText(`${todayStr} • SEOUL MEMORIES`, canvasWidth / 2, 105);
 
-  // Top Decorative Frame Stickers
-  const frameStickers = frame?.decorations?.stickers || ['🍵', '✨'];
-  ctx.font = '36px sans-serif';
-  ctx.fillText(frameStickers[0] || '✨', 80, 85);
-  ctx.fillText(frameStickers[1] || '♡', canvasWidth - 80, 85);
-
-  // 4. Calculate Photo Slot Boundaries
+  // Photo Slots
   const slotPadding = 48;
-  const contentTop = 150;
-  const contentBottom = canvasHeight - 160;
+  const contentTop = 135;
+  const contentBottom = canvasHeight - 140;
   const availableHeight = contentBottom - contentTop;
 
-  // Preload all photo images
-  const loadedImages = await Promise.all(photos.map(p => loadImage(p)));
-
   if (isGrid) {
-    // 2x2 Grid Layout
-    const cols = 2;
-    const rows = 2;
-    const gap = 24;
+    const cols = 2, rows = 2, gap = 24;
     const slotW = (canvasWidth - (slotPadding * 2) - gap) / 2;
     const slotH = (availableHeight - gap) / 2;
 
@@ -185,11 +203,10 @@ export async function renderPhotoStripCanvas({
         const idx = r * cols + c;
         const x = slotPadding + c * (slotW + gap);
         const y = contentTop + r * (slotH + gap);
-        renderSlot(ctx, loadedImages[idx], x, y, slotW, slotH, filter, brightness, contrast, idx + 1);
+        renderSlot(ctx, loadedPhotos[idx], x, y, slotW, slotH, filter, brightness, contrast, idx + 1);
       }
     }
   } else {
-    // Vertical Strip Layout (2, 3, or 4 slots)
     const gap = 20;
     const totalGaps = (slotsCount - 1) * gap;
     const slotW = canvasWidth - (slotPadding * 2);
@@ -198,72 +215,44 @@ export async function renderPhotoStripCanvas({
     for (let i = 0; i < slotsCount; i++) {
       const x = slotPadding;
       const y = contentTop + i * (slotH + gap);
-      renderSlot(ctx, loadedImages[i], x, y, slotW, slotH, filter, brightness, contrast, i + 1);
+      renderSlot(ctx, loadedPhotos[i], x, y, slotW, slotH, filter, brightness, contrast, i + 1);
     }
   }
 
-  // 5. Draw Footer (Barcode, Stamp, Copyright)
-  const footerY = canvasHeight - 100;
-
-  // Draw simulated barcode
+  // Footer: Barcode & Clean Stamp
+  const footerY = canvasHeight - 90;
   const barcodeX = slotPadding + 20;
   const barHeights = [4, 2, 5, 1, 3, 6, 2, 4, 1, 3, 5, 2, 4, 1, 3, 2];
   ctx.fillStyle = textColor;
   for (let b = 0; b < barHeights.length; b++) {
     const barW = barHeights[b];
-    ctx.fillRect(barcodeX + (b * 9), footerY, barW, 40);
+    ctx.fillRect(barcodeX + (b * 9), footerY, barW, 36);
   }
 
-  // Draw Cute Stamp Box
-  const stampText = frame?.decorations?.footerStamp || 'MATCHABOX ♡';
+  const stampText = frame?.decorations?.footerStamp || 'MATCHABOX';
   ctx.save();
-  ctx.translate(canvasWidth - 220, footerY + 20);
-  ctx.rotate(-0.06); // slight playful tilt
+  ctx.translate(canvasWidth - 210, footerY + 18);
   ctx.strokeStyle = borderColor;
-  ctx.lineWidth = 3;
-  drawRoundedRect(ctx, -80, -20, 180, 42, 8);
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, -75, -18, 160, 36, 6);
   ctx.stroke();
 
-  ctx.font = 'bold 20px "Fredoka", sans-serif';
+  ctx.font = 'bold 18px "Fredoka", sans-serif';
   ctx.fillStyle = borderColor;
   ctx.textAlign = 'center';
-  ctx.fillText(stampText, 10, 4);
+  ctx.fillText(stampText, 5, 2);
   ctx.restore();
 
-  // 6. Draw User-Added Interactive Stickers on top of strip
-  if (stickers && stickers.length > 0) {
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    stickers.forEach((st) => {
-      ctx.save();
-      const px = (st.x / 100) * canvasWidth;
-      const py = (st.y / 100) * canvasHeight;
-      const size = st.size || 52;
-      const rotation = ((st.rotation || 0) * Math.PI) / 180;
-
-      ctx.translate(px, py);
-      ctx.rotate(rotation);
-      ctx.font = `${size}px sans-serif`;
-      ctx.fillText(st.emoji, 0, 0);
-      ctx.restore();
-    });
-  }
-
-  // Return generated Data URL
   return canvas.toDataURL('image/png', 0.95);
 }
 
-// Render individual photo slot with rounded borders, filters, and fallback
-function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index) {
-  const slotRadius = 14;
-
+// Render individual photo slot
+function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index, radius = 12) {
   ctx.save();
-  drawRoundedRect(ctx, x, y, w, h, slotRadius);
-  ctx.clip(); // Clip photo inside rounded slot
+  drawRoundedRect(ctx, x, y, w, h, radius);
+  ctx.clip();
 
   if (img) {
-    // Build filter string
     let filterString = `brightness(${brightness}%) contrast(${contrast}%)`;
     if (filter === 'warm') filterString += ' sepia(25%) saturate(125%)';
     if (filter === 'cool') filterString += ' hue-rotate(180deg) saturate(90%)';
@@ -277,21 +266,19 @@ function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index) {
     drawImageCover(ctx, img, x, y, w, h);
     ctx.filter = 'none';
   } else {
-    // Empty placeholder slot
     ctx.fillStyle = '#E5E0D8';
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = '#9C9488';
-    ctx.font = 'bold 36px "Fredoka", sans-serif';
+    ctx.font = 'bold 28px "Fredoka", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(`Slot #${index}`, x + (w / 2), y + (h / 2));
+    ctx.fillText(`Pose #${index}`, x + (w / 2), y + (h / 2));
   }
 
   ctx.restore();
 
-  // Subtle photo slot outline
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)';
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
   ctx.lineWidth = 2;
-  drawRoundedRect(ctx, x, y, w, h, slotRadius);
+  drawRoundedRect(ctx, x, y, w, h, radius);
   ctx.stroke();
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw, Check, Sparkles, ArrowRight, Upload, Image as ImageIcon, Eye } from 'lucide-react';
+import { RotateCcw, Check, Sparkles, ArrowRight, Upload, Eye } from 'lucide-react';
 import { renderPhotoStripCanvas } from '../../utils/canvasRenderer';
 
 export default function LivePhotoStrip({
@@ -17,9 +17,10 @@ export default function LivePhotoStrip({
   const [canvasModalUrl, setCanvasModalUrl] = useState(null);
   const [isRenderingCanvas, setIsRenderingCanvas] = useState(false);
 
+  const isCustomOverlay = Boolean(selectedFrame?.imageOverlayUrl && selectedFrame?.slotCoords);
   const isGrid = layout.type === 'grid';
-  const totalSlots = layout.slots;
-  const isCompleted = capturedPhotos.filter(Boolean).length === totalSlots && !isSessionActive;
+  const totalSlots = isCustomOverlay ? (selectedFrame.slots || 3) : layout.slots;
+  const isCompleted = capturedPhotos.filter(Boolean).length >= totalSlots && !isSessionActive;
 
   const todayFormatted = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -48,7 +49,6 @@ export default function LivePhotoStrip({
       <div className="live-strip-header">
         <div className="live-strip-title">
           <span>Live Photo Strip</span>
-          <span>{selectedFrame?.stickerSample || '🍵'}</span>
         </div>
         <button
           onClick={onOpenFrameSelector}
@@ -57,90 +57,164 @@ export default function LivePhotoStrip({
             color: 'var(--matcha-primary)',
             fontWeight: 700,
             background: 'var(--matcha-soft)',
-            padding: '3px 8px',
-            borderRadius: '12px'
+            padding: '4px 10px',
+            borderRadius: '12px',
+            cursor: 'pointer'
           }}
         >
           Ganti Frame
         </button>
       </div>
 
-      {/* The Styled Frame Strip Preview */}
-      <div 
-        className={`live-strip-card ${isGrid ? 'grid-mode' : ''}`}
-        style={{
-          background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #F9FAF5 0%, #EBF2E3 100%)',
-          border: `3px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--matcha-primary)'}`
-        }}
-      >
-        {/* Strip Header Brand & Stickers */}
-        <div 
-          className="live-strip-brand"
-          style={{ color: selectedFrame?.textColor || 'var(--text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+      {/* Styled Frame Strip Preview */}
+      {isCustomOverlay ? (
+        /* Custom Cutout Frame (Cherry Coquette or Airmail Polaroid) */
+        <div
+          style={{
+            position: 'relative',
+            width: '210px',
+            aspectRatio: `${selectedFrame.sourceDimensions?.w || 576} / ${selectedFrame.sourceDimensions?.h || 1024}`,
+            borderRadius: '14px',
+            overflow: 'hidden',
+            boxShadow: '0 10px 28px rgba(0, 0, 0, 0.2)',
+            backgroundColor: selectedFrame.themeColor || '#FFF'
+          }}
         >
-          <span>{selectedFrame?.decorations?.stickers?.[0] || '✨'}</span>
-          <span>{selectedFrame?.decorations?.headerText || selectedFrame?.title || 'MatchaBox'}</span>
-          <span>{selectedFrame?.decorations?.stickers?.[1] || '♡'}</span>
-        </div>
-
-        {/* Dynamic Slots (Vertical or Grid) */}
-        <div className={`live-slots-container ${isGrid ? 'grid-layout' : ''}`}>
-          {Array.from({ length: totalSlots }).map((_, index) => {
-            const photoSrc = capturedPhotos[index];
-            const isRecording = isSessionActive && activeSlotIndex === index;
+          {selectedFrame.slotCoords.map((coord, idx) => {
+            const sw = selectedFrame.sourceDimensions?.w || 576;
+            const sh = selectedFrame.sourceDimensions?.h || 1024;
+            const photoSrc = capturedPhotos[idx];
+            const isRecording = isSessionActive && activeSlotIndex === idx;
 
             return (
-              <div 
-                key={index}
-                className={`live-slot-item ${isRecording ? 'active-recording' : ''}`}
+              <div
+                key={idx}
+                style={{
+                  position: 'absolute',
+                  left: `${(coord.x / sw) * 100}%`,
+                  top: `${(coord.y / sh) * 100}%`,
+                  width: `${(coord.w / sw) * 100}%`,
+                  height: `${(coord.h / sh) * 100}%`,
+                  overflow: 'hidden',
+                  backgroundColor: '#EAE5DE',
+                  border: isRecording ? '2px solid var(--matcha-primary)' : 'none',
+                  boxShadow: isRecording ? '0 0 0 2px var(--matcha-primary)' : 'none'
+                }}
               >
                 {photoSrc ? (
                   <>
-                    <img 
-                      src={photoSrc} 
-                      alt={`Pose ${index + 1}`} 
-                      className="live-slot-photo" 
+                    <img
+                      src={photoSrc}
+                      alt={`Pose ${idx + 1}`}
+                      className="live-slot-photo"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                     {!isSessionActive && (
                       <button
                         className="slot-retake-btn"
-                        onClick={() => onRetakeSingleSlot(index)}
-                        title={`Retake Pose #${index + 1}`}
+                        onClick={() => onRetakeSingleSlot(idx)}
+                        title={`Retake Pose #${idx + 1}`}
                       >
-                        <RotateCcw size={13} />
+                        <RotateCcw size={12} />
                       </button>
                     )}
                   </>
                 ) : (
-                  <div className="live-slot-empty">
-                    <span>{isRecording ? '📸' : `Slot #${index + 1}`}</span>
-                    <span style={{ fontSize: '0.65rem' }}>
-                      {isRecording ? 'Posing...' : 'Ready'}
-                    </span>
+                  <div className="live-slot-empty" style={{ height: '100%' }}>
+                    <span>{isRecording ? '📸' : `Slot #${idx + 1}`}</span>
                   </div>
                 )}
               </div>
             );
           })}
-        </div>
 
-        {/* Strip Footer with Date & Barcode */}
-        <div style={{
-          marginTop: '10px',
-          paddingTop: '6px',
-          borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontSize: '0.65rem',
-          color: selectedFrame?.textColor || 'var(--text-muted)'
-        }}>
-          <span>{todayFormatted}</span>
-          <span style={{ fontWeight: 700 }}>
-            {selectedFrame?.decorations?.footerStamp || 'MATCHABOX ♡'}
-          </span>
+          {/* Frame Artwork Overlay */}
+          <img
+            src={selectedFrame.imageOverlayUrl}
+            alt={selectedFrame.title}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              pointerEvents: 'none'
+            }}
+          />
         </div>
-      </div>
+      ) : (
+        /* Programmatic Strip Card */
+        <div 
+          className={`live-strip-card ${isGrid ? 'grid-mode' : ''}`}
+          style={{
+            background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #F9FAF5 0%, #EBF2E3 100%)',
+            border: `3px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--matcha-primary)'}`
+          }}
+        >
+          {/* Header Brand */}
+          <div 
+            className="live-strip-brand"
+            style={{ color: selectedFrame?.textColor || 'var(--text-main)' }}
+          >
+            {selectedFrame?.decorations?.headerText || selectedFrame?.title || 'MatchaBox'}
+          </div>
+
+          {/* Dynamic Slots */}
+          <div className={`live-slots-container ${isGrid ? 'grid-layout' : ''}`}>
+            {Array.from({ length: totalSlots }).map((_, index) => {
+              const photoSrc = capturedPhotos[index];
+              const isRecording = isSessionActive && activeSlotIndex === index;
+
+              return (
+                <div 
+                  key={index}
+                  className={`live-slot-item ${isRecording ? 'active-recording' : ''}`}
+                >
+                  {photoSrc ? (
+                    <>
+                      <img 
+                        src={photoSrc} 
+                        alt={`Pose ${index + 1}`} 
+                        className="live-slot-photo" 
+                      />
+                      {!isSessionActive && (
+                        <button
+                          className="slot-retake-btn"
+                          onClick={() => onRetakeSingleSlot(index)}
+                          title={`Retake Pose #${index + 1}`}
+                        >
+                          <RotateCcw size={13} />
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <div className="live-slot-empty">
+                      <span>{isRecording ? '📸' : `Slot #${index + 1}`}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            marginTop: '10px',
+            paddingTop: '6px',
+            borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '0.65rem',
+            color: selectedFrame?.textColor || 'var(--text-muted)'
+          }}>
+            <span>{todayFormatted}</span>
+            <span style={{ fontWeight: 700 }}>
+              {selectedFrame?.decorations?.footerStamp || 'MATCHABOX'}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Canvas Render Verification Button */}
       <div style={{ marginTop: '0.85rem', width: '100%' }}>
@@ -180,7 +254,7 @@ export default function LivePhotoStrip({
         </div>
       )}
 
-      {/* Manual Upload Option if user wants to swap photos */}
+      {/* Manual Upload Option */}
       {!isSessionActive && (
         <div style={{ marginTop: '0.75rem', width: '100%', textAlign: 'center' }}>
           <button

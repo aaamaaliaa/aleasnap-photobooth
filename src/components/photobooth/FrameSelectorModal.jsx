@@ -141,17 +141,25 @@ export default function FrameSelectorModal({
                     className="catalog-card-preview"
                     style={{ background: frame.bgStyle }}
                   >
-                    <div 
-                      className="catalog-mini-strip"
-                      style={{ border: `2px solid ${frame.borderColor}` }}
-                    >
-                      <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
-                        {frame.stickerSample}
+                    {frame.previewThumbUrl ? (
+                      <img 
+                        src={frame.previewThumbUrl} 
+                        alt={frame.title} 
+                        style={{ height: '92%', width: 'auto', borderRadius: '6px', objectFit: 'contain', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} 
+                      />
+                    ) : (
+                      <div 
+                        className="catalog-mini-strip"
+                        style={{ border: `2px solid ${frame.borderColor}` }}
+                      >
+                        <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
+                          {frame.title}
+                        </div>
+                        <div className="catalog-mini-slot">1</div>
+                        <div className="catalog-mini-slot">2</div>
+                        <div className="catalog-mini-slot">3</div>
                       </div>
-                      <div className="catalog-mini-slot">📸</div>
-                      <div className="catalog-mini-slot">✌️</div>
-                      <div className="catalog-mini-slot">♡</div>
-                    </div>
+                    )}
                   </div>
 
                   <div className="catalog-card-title">

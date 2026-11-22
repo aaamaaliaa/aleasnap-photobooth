@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FRAME_CATEGORIES, FRAMES_LIST } from '../../data/framesData';
-import { Palette, Sparkles, Dices, Search, Check, Camera } from 'lucide-react';
+import { Palette, Dices, Search, Check, Camera } from 'lucide-react';
 import './GalleryPage.css';
 
 export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhotobooth }) {
@@ -34,7 +34,7 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
         </div>
         <h1 className="gallery-title">Choose Your Vibe</h1>
         <p className="gallery-lead">
-          Explore our collection of cute Korean photobooth frames. From classic matcha green to cherry blossoms, analog film, and Y2K holographic designs.
+          Jelajahi koleksi frame photobooth Korea eksklusif. Tersedia edisi spesial Cherry Coquette, Retro Airmail Polaroid, Matcha Signature, dan beragam tema estetik lainnya.
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexGrow: 1 }}>
             <input
               type="text"
-              placeholder="Search frames by name or tag..."
+              placeholder="Cari frame berdasarkan nama atau tema..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="gallery-search-input"
@@ -76,8 +76,8 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
       {filteredFrames.length === 0 ? (
         <div className="empty-gallery">
           <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔍</div>
-          <h3 style={{ marginBottom: '0.5rem' }}>No frames found</h3>
-          <p>Try searching with another keyword or pick another category.</p>
+          <h3 style={{ marginBottom: '0.5rem' }}>Frame tidak ditemukan</h3>
+          <p>Coba gunakan kata kunci pencarian lain atau pilih kategori lain.</p>
         </div>
       ) : (
         <div className="gallery-grid">
@@ -94,19 +94,27 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
                   className="gallery-card-preview"
                   style={{ background: frame.bgStyle }}
                 >
-                  <div 
-                    className="gallery-photo-strip"
-                    style={{ border: `2px solid ${frame.borderColor}` }}
-                  >
-                    <div style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 700, color: frame.textColor }}>
-                      {frame.stickerSample}
-                    </div>
-                    {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
-                      <div key={idx} className="gallery-photo-slot">
-                        <span>{idx === 0 ? '✨' : idx === 1 ? '📸' : '🤍'}</span>
+                  {frame.previewThumbUrl ? (
+                    <img 
+                      src={frame.previewThumbUrl} 
+                      alt={frame.title} 
+                      style={{ height: '92%', width: 'auto', borderRadius: '8px', objectFit: 'contain', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} 
+                    />
+                  ) : (
+                    <div 
+                      className="gallery-photo-strip"
+                      style={{ border: `2px solid ${frame.borderColor}` }}
+                    >
+                      <div style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 700, color: frame.textColor }}>
+                        {frame.title}
                       </div>
-                    ))}
-                  </div>
+                      {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
+                        <div key={idx} className="gallery-photo-slot">
+                          <span>{idx + 1}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Card Details */}
@@ -126,7 +134,7 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
 
                   <div className="gallery-card-footer">
                     <span style={{ fontSize: '0.8rem', color: 'var(--text-light)', fontWeight: 500 }}>
-                      {frame.slots} Photo Slots
+                      {frame.slots} Foto
                     </span>
 
                     <button 
@@ -144,10 +152,10 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
                     >
                       {isCurrent ? (
                         <>
-                          <Check size={16} /> Selected
+                          <Check size={16} /> Terpilih
                         </>
                       ) : (
-                        'Use Frame'
+                        'Gunakan Frame'
                       )}
                     </button>
                   </div>
@@ -177,7 +185,7 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
           gap: '1.2rem'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)' }}>
-            <span>Active Frame: <strong>{selectedFrame.title}</strong></span>
+            <span>Frame Aktif: <strong>{selectedFrame.title}</strong></span>
             <span>{selectedFrame.stickerSample}</span>
           </div>
 
@@ -187,7 +195,7 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
             style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}
           >
             <Camera size={16} />
-            Go to Photobooth
+            Mulai Photobooth
           </button>
         </div>
       )}

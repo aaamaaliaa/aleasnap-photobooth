@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { PHOTO_FILTERS, STICKER_COLLECTIONS } from '../../constants/editorAssets';
+import { PHOTO_FILTERS } from '../../constants/editorAssets';
+import { FRAMES_LIST } from '../../data/framesData';
 import FrameSelectorModal from '../photobooth/FrameSelectorModal';
 import FinalPreviewModal from './FinalPreviewModal';
 import { renderPhotoStripCanvas } from '../../utils/canvasRenderer';
 import { 
   Sliders, 
   Palette, 
-  Smile, 
   Type, 
   Sparkles, 
   ArrowLeft, 
-  RotateCcw, 
-  Trash2, 
   Check, 
   Eye,
-  RefreshCw 
+  RefreshCw,
+  Layers
 } from 'lucide-react';
 import './PhotoEditorPage.css';
 
@@ -23,40 +22,21 @@ export default function PhotoEditorPage({
   onNavigatePhotobooth,
   onNavigateHome
 }) {
-  // Photos, layout, and frame from session
   const photos = sessionData?.photos || [];
   const layout = sessionData?.layout || { slots: 4, type: 'vertical' };
-  const [currentFrame, setCurrentFrame] = useState(sessionData?.frame);
+  const [currentFrame, setCurrentFrame] = useState(sessionData?.frame || FRAMES_LIST[0]);
 
-  // Editor states
-  const [activeTab, setActiveTab] = useState('filters'); // 'filters' | 'adjust' | 'stickers' | 'text' | 'frames'
+  // Editor states (Stickers removed completely per user request)
+  const [activeTab, setActiveTab] = useState('filters'); // 'filters' | 'adjust' | 'frames' | 'text'
   const [selectedFilter, setSelectedFilter] = useState('none');
   const [brightness, setBrightness] = useState(100);
   const [contrast, setContrast] = useState(100);
   const [customText, setCustomText] = useState('');
-  const [placedStickers, setPlacedStickers] = useState([]);
 
   // Modals state
   const [isFrameModalOpen, setIsFrameModalOpen] = useState(false);
   const [finalPreviewUrl, setFinalPreviewUrl] = useState(null);
   const [isRendering, setIsRendering] = useState(false);
-
-  // Add sticker to strip
-  const handleAddSticker = (emoji) => {
-    const newSticker = {
-      id: `stk-${Date.now()}-${Math.random()}`,
-      emoji,
-      x: 35 + Math.random() * 30, // center-ish random
-      y: 20 + Math.random() * 60,
-      size: 46,
-      rotation: Math.floor(Math.random() * 30) - 15
-    };
-    setPlacedStickers((prev) => [...prev, newSticker]);
-  };
-
-  const handleRemoveSticker = (id) => {
-    setPlacedStickers((prev) => prev.filter((s) => s.id !== id));
-  };
 
   // Reset adjustments
   const handleResetAdjustments = () => {
@@ -86,8 +66,7 @@ export default function PhotoEditorPage({
         filter: selectedFilter,
         brightness,
         contrast,
-        customText,
-        stickers: placedStickers
+        customText
       });
       setFinalPreviewUrl(dataUrl);
     } catch (err) {
@@ -98,13 +77,16 @@ export default function PhotoEditorPage({
   };
 
   const isGrid = layout.type === 'grid';
-  const totalSlots = layout.slots;
+  const totalSlots = currentFrame?.slots || layout.slots || 4;
 
   const todayFormatted = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
     month: 'short',
     year: 'numeric'
   }).toUpperCase();
+
+  // Check if current frame is a special overlay frame (Cherry Coquette or Airmail Polaroid)
+  const isCustomOverlayFrame = Boolean(currentFrame?.imageOverlayUrl && currentFrame?.slotCoords);
 
   return (
     <div className="editor-container">
@@ -147,96 +129,145 @@ export default function PhotoEditorPage({
 
         <span className="badge-cute">
           <Sparkles size={14} color="var(--matcha-primary)" />
-          Tahap 5 • Photo Editor & Customizer
+          Photo Editor & Tone Studio
         </span>
       </div>
 
       {/* Studio Grid: Live Strip on Left, Controls on Right */}
       <div className="editor-studio-grid">
-        {/* Left: Live Strip Editor Preview with Real-time Filters & Stickers */}
+        {/* Left: Live Strip Editor Preview */}
         <div className="editor-canvas-stage">
           <div className="editor-strip-wrapper">
-            <div
-              className={`editor-strip-card ${isGrid ? 'grid-mode' : ''}`}
-              style={{
-                background: currentFrame ? currentFrame.bgStyle : '#FFF',
-                border: `3px solid ${currentFrame ? currentFrame.borderColor : 'var(--matcha-primary)'}`
-              }}
-            >
-              {/* Header Title */}
-              <div
-                className="editor-strip-header"
-                style={{ color: currentFrame?.textColor || 'var(--text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-              >
-                <span>{currentFrame?.decorations?.stickers?.[0] || '✨'}</span>
-                <span>{customText.trim() ? customText : (currentFrame?.decorations?.headerText || currentFrame?.title)}</span>
-                <span>{currentFrame?.decorations?.stickers?.[1] || '♡'}</span>
-              </div>
-
-              {/* Photos Slots with live filter applied */}
-              <div className={`editor-slots-container ${isGrid ? 'grid-layout' : ''}`}>
-                {Array.from({ length: totalSlots }).map((_, index) => (
-                  <div key={index} className="editor-slot-item">
-                    {photos[index] ? (
-                      <img
-                        src={photos[index]}
-                        alt={`Pose ${index + 1}`}
-                        className="editor-slot-photo"
-                        style={{ filter: getCssFilter() }}
-                      />
-                    ) : (
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-light)', fontSize: '0.8rem' }}>
-                        Slot #{index + 1}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Strip Footer */}
-              <div style={{
-                marginTop: '12px',
-                paddingTop: '6px',
-                borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                fontSize: '0.65rem',
-                color: currentFrame?.textColor || 'var(--text-muted)'
-              }}>
-                <span>{todayFormatted}</span>
-                <span style={{ fontWeight: 700 }}>
-                  {currentFrame?.decorations?.footerStamp || 'MATCHABOX ♡'}
-                </span>
-              </div>
-            </div>
-
-            {/* Placed Interactive Stickers */}
-            {placedStickers.map((stk) => (
-              <div
-                key={stk.id}
-                className="placed-sticker"
+            {/* If special overlay frame (Cherry Coquette or Airmail) */}
+            {isCustomOverlayFrame ? (
+              <div 
                 style={{
-                  left: `${stk.x}%`,
-                  top: `${stk.y}%`,
-                  fontSize: `${stk.size * 0.65}px`,
-                  transform: `translate(-50%, -50%) rotate(${stk.rotation}deg)`
+                  position: 'relative',
+                  width: '260px',
+                  aspectRatio: `${currentFrame.sourceDimensions?.w || 576} / ${currentFrame.sourceDimensions?.h || 1024}`,
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 16px 36px rgba(0, 0, 0, 0.22)',
+                  backgroundColor: currentFrame.themeColor || '#FFF'
                 }}
-                title="Sticker (klik silang di panel untuk menghapus)"
               >
-                {stk.emoji}
+                {/* User photos placed in precise cutout slots */}
+                {currentFrame.slotCoords.map((coord, idx) => {
+                  const sw = currentFrame.sourceDimensions?.w || 576;
+                  const sh = currentFrame.sourceDimensions?.h || 1024;
+
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        position: 'absolute',
+                        left: `${(coord.x / sw) * 100}%`,
+                        top: `${(coord.y / sh) * 100}%`,
+                        width: `${(coord.w / sw) * 100}%`,
+                        height: `${(coord.h / sh) * 100}%`,
+                        overflow: 'hidden',
+                        backgroundColor: '#EAE5DE'
+                      }}
+                    >
+                      {photos[idx] ? (
+                        <img
+                          src={photos[idx]}
+                          alt={`Pose ${idx + 1}`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            filter: getCssFilter()
+                          }}
+                        />
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#9C9488', fontSize: '0.75rem', fontWeight: 600 }}>
+                          Pose #{idx + 1}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Frame artwork overlay with transparent windows */}
+                <img
+                  src={currentFrame.imageOverlayUrl}
+                  alt={currentFrame.title}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    pointerEvents: 'none'
+                  }}
+                />
               </div>
-            ))}
+            ) : (
+              /* Programmatic Clean Strip Card */
+              <div
+                className={`editor-strip-card ${isGrid ? 'grid-mode' : ''}`}
+                style={{
+                  background: currentFrame ? currentFrame.bgStyle : '#FFF',
+                  border: `3px solid ${currentFrame ? currentFrame.borderColor : 'var(--matcha-primary)'}`
+                }}
+              >
+                {/* Header Title */}
+                <div
+                  className="editor-strip-header"
+                  style={{ color: currentFrame?.textColor || 'var(--text-main)' }}
+                >
+                  {customText.trim() ? customText : (currentFrame?.decorations?.headerText || currentFrame?.title)}
+                </div>
+
+                {/* Photos Slots */}
+                <div className={`editor-slots-container ${isGrid ? 'grid-layout' : ''}`}>
+                  {Array.from({ length: totalSlots }).map((_, index) => (
+                    <div key={index} className="editor-slot-item">
+                      {photos[index] ? (
+                        <img
+                          src={photos[index]}
+                          alt={`Pose ${index + 1}`}
+                          className="editor-slot-photo"
+                          style={{ filter: getCssFilter() }}
+                        />
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-light)', fontSize: '0.8rem' }}>
+                          Pose #{index + 1}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Strip Footer */}
+                <div style={{
+                  marginTop: '12px',
+                  paddingTop: '6px',
+                  borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontSize: '0.65rem',
+                  color: currentFrame?.textColor || 'var(--text-muted)'
+                }}>
+                  <span>{todayFormatted}</span>
+                  <span style={{ fontWeight: 700 }}>
+                    {currentFrame?.decorations?.footerStamp || 'MATCHABOX'}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div style={{ marginTop: '1.25rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            💡 <em>Semua filter, kecerahan, teks, dan stiker akan ter-render otomatis ke Canvas resolusi tinggi.</em>
+            💡 <em>Semua filter warna, pencahayaan, dan teks akan ter-render otomatis ke Canvas resolusi tinggi.</em>
           </div>
         </div>
 
         {/* Right: Tabbed Controls Panel */}
         <div className="editor-controls-panel">
-          {/* Tabs Navigation */}
+          {/* Tabs Navigation (Stickers tab removed cleanly) */}
           <div className="editor-tabs-bar">
             <button
               className={`editor-tab-btn ${activeTab === 'filters' ? 'active' : ''}`}
@@ -255,11 +286,11 @@ export default function PhotoEditorPage({
             </button>
 
             <button
-              className={`editor-tab-btn ${activeTab === 'stickers' ? 'active' : ''}`}
-              onClick={() => setActiveTab('stickers')}
+              className={`editor-tab-btn ${activeTab === 'frames' ? 'active' : ''}`}
+              onClick={() => setActiveTab('frames')}
             >
-              <Smile size={16} />
-              <span>Stickers</span>
+              <Layers size={16} />
+              <span>Frames</span>
             </button>
 
             <button
@@ -279,7 +310,7 @@ export default function PhotoEditorPage({
                   Pilih Filter Estetik 🎨
                 </h4>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                  Filter bernuansa studio foto Korea, analog film, dan pastel.
+                  Filter bernuansa studio foto Korea, analog film, dan pastel natural.
                 </p>
                 <div className="filters-preset-grid">
                   {PHOTO_FILTERS.map((f) => (
@@ -292,22 +323,6 @@ export default function PhotoEditorPage({
                       <div className="filter-preset-name">{f.label}</div>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Quick Frame Switcher in Filters tab */}
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-light)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Ganti Frame</span>
-                  <button
-                    onClick={() => setIsFrameModalOpen(true)}
-                    style={{ fontSize: '0.8rem', color: 'var(--matcha-primary)', fontWeight: 700, textDecoration: 'underline' }}
-                  >
-                    Buka Semua Frame
-                  </button>
-                </div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Frame saat ini: <strong>{currentFrame?.title}</strong> {currentFrame?.stickerSample}
                 </div>
               </div>
             </div>
@@ -360,55 +375,57 @@ export default function PhotoEditorPage({
             </div>
           )}
 
-          {/* Tab 3: Stickers */}
-          {activeTab === 'stickers' && (
+          {/* Tab 3: Frames Quick Switcher */}
+          {activeTab === 'frames' && (
             <div className="editor-tab-body">
-              <h4 style={{ fontSize: '0.95rem', color: 'var(--text-main)' }}>
-                Tambahkan Stiker Lucu ✨
-              </h4>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <h4 style={{ fontSize: '0.95rem', color: 'var(--text-main)' }}>Ganti Desain Frame</h4>
+                <button
+                  onClick={() => setIsFrameModalOpen(true)}
+                  style={{ fontSize: '0.8rem', color: 'var(--matcha-primary)', fontWeight: 700, textDecoration: 'underline' }}
+                >
+                  Buka Galeri Lengkap
+                </button>
+              </div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                Klik stiker untuk menempelkannya pada photo strip.
+                Frame aktif: <strong>{currentFrame?.title}</strong>
               </p>
 
-              {STICKER_COLLECTIONS.map((col) => (
-                <div key={col.category} className="stickers-category-section">
-                  <div className="stickers-category-title">{col.category}</div>
-                  <div className="stickers-picker-row">
-                    {col.stickers.map((stk, idx) => (
-                      <button
-                        key={idx}
-                        className="btn-pick-sticker"
-                        onClick={() => handleAddSticker(stk)}
-                      >
-                        {stk}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              {/* Placed Stickers List with Delete buttons */}
-              {placedStickers.length > 0 && (
-                <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-light)' }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    Stiker Terpasang ({placedStickers.length})
-                  </div>
-                  <div className="active-stickers-list">
-                    {placedStickers.map((stk) => (
-                      <div key={stk.id} className="active-sticker-pill">
-                        <span style={{ fontSize: '1.2rem' }}>{stk.emoji}</span>
-                        <button
-                          onClick={() => handleRemoveSticker(stk.id)}
-                          style={{ color: '#E88B9E', display: 'flex', alignItems: 'center' }}
-                          title="Hapus stiker"
-                        >
-                          <Trash2 size={14} />
-                        </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {FRAMES_LIST.slice(0, 6).map((f) => {
+                  const isCur = currentFrame?.id === f.id;
+                  return (
+                    <div
+                      key={f.id}
+                      onClick={() => setCurrentFrame(f)}
+                      style={{
+                        padding: '0.6rem 0.85rem',
+                        borderRadius: 'var(--radius-sm)',
+                        border: isCur ? '2px solid var(--matcha-primary)' : '1.5px solid var(--border-light)',
+                        background: isCur ? 'var(--matcha-soft)' : 'white',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        transition: 'all var(--transition-fast)'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                        <span style={{ fontSize: '1.2rem' }}>{f.stickerSample}</span>
+                        <div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                            {f.title}
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                            {f.slots} Foto • {f.category}
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                      {isCur && <Check size={16} color="var(--matcha-primary)" />}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
@@ -419,7 +436,7 @@ export default function PhotoEditorPage({
                 Teks Dekorasi Header ✍️
               </h4>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                Tulis nama, tanggal, atau pesan kenangan untuk dicetak pada bagian atas photo strip.
+                Tulis nama, tanggal, atau pesan kenangan untuk dicetak pada bagian photo strip.
               </p>
 
               <div className="text-input-group">
