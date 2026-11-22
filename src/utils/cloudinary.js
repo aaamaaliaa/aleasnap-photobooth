@@ -31,12 +31,20 @@ export function saveCloudinaryConfig(cloudName, uploadPreset) {
 export async function uploadToCloudinary(dataUrl) {
   const { cloudName, uploadPreset, isConfigured } = getCloudinaryConfig();
 
-  // If not configured, provide graceful demo mode notice and temporary storage
+  // If not configured, provide graceful notice
   if (!isConfigured) {
     return {
       success: false,
       notConfigured: true,
-      error: 'Kredensial Cloudinary belum diatur di file .env (VITE_CLOUDINARY_CLOUD_NAME & VITE_CLOUDINARY_UPLOAD_PRESET).'
+      error: 'Kredensial Cloudinary belum diatur di file .env atau pengaturan modal.'
+    };
+  }
+
+  // Detect common mistake: entering purely numeric API Key as cloudName
+  if (/^\d{8,}$/.test(cloudName.trim())) {
+    return {
+      success: false,
+      error: 'Unknown API key: Nilai Cloud Name yang Anda masukkan adalah API Key (deretan angka). Masukkan Cloud Name yang benar (nama unik akun Cloudinary Anda, bukan API Key).'
     };
   }
 
@@ -44,9 +52,8 @@ export async function uploadToCloudinary(dataUrl) {
     const formData = new FormData();
     formData.append('file', dataUrl);
     formData.append('upload_preset', uploadPreset);
-    formData.append('folder', 'aleasnap_photostrips');
 
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName.trim()}/image/upload`, {
       method: 'POST',
       body: formData
     });
@@ -54,7 +61,12 @@ export async function uploadToCloudinary(dataUrl) {
     const data = await response.json();
 
     if (!response.ok) {
-      const errorMsg = data?.error?.message || `Upload gagal dengan status ${response.status}`;
+      let errorMsg = data?.error?.message || `Upload gagal dengan status ${response.status}`;
+      if (errorMsg.toLowerCase().includes('unknown api key')) {
+        errorMsg = 'Unknown API key: Cloud Name tertukar dengan API Key (angka), atau Upload Preset masih berstatus "Signed" di dashboard Cloudinary. Ubah preset menjadi "Unsigned".';
+      } else if (errorMsg.toLowerCase().includes('whitelisted for unsigned')) {
+        errorMsg = 'Upload Preset Anda belum disetel ke mode "Unsigned" di dashboard Cloudinary (Settings > Upload > Upload Presets).';
+      }
       return {
         success: false,
         error: errorMsg
@@ -73,6 +85,46 @@ export async function uploadToCloudinary(dataUrl) {
     return {
       success: false,
       error: 'Gagal menghubungi server Cloudinary. Periksa koneksi internet Anda.'
+    };
+  }
+}
+
+/**
+ * Fallback free temporary cloud host (tmpfiles.org) for zero-setup demo testing
+ * @param {string} dataUrl - Base64 Data URL
+ * @returns {Promise<{ success: boolean, url?: string, error?: string, isDemo?: boolean }>}
+ */
+export async function uploadToDemoHost(dataUrl) {
+  try {
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const formData = new FormData();
+    formData.append('file', blob, `aleasnap_${Date.now()}.png`);
+
+    const response = await fetch('https://tmpfiles.org/api/v1/upload', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+    if (data?.status === 'success' && data?.data?.url) {
+      // Convert https://tmpfiles.org/123/file.png to direct download https://tmpfiles.org/dl/123/file.png
+      const directUrl = data.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+      return {
+        success: true,
+        url: directUrl,
+        isDemo: true
+      };
+    }
+    return {
+      success: false,
+      error: 'Server demo sementara tidak memberikan respon URL.'
+    };
+  } catch (err) {
+    console.error('Demo upload error:', err);
+    return {
+      success: false,
+      error: 'Gagal upload ke server demo: ' + (err.message || 'Periksa koneksi internet.')
     };
   }
 }
