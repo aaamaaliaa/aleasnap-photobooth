@@ -1,0 +1,385 @@
+.photobooth-container {
+  padding: 1.5rem 0 4rem;
+}
+
+/* Header bar with frame & layout info */
+.photobooth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.photobooth-active-frame-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Main Studio Layout: Camera Area + Live Strip Preview */
+.photobooth-studio-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Left: Camera Stage */
+.camera-stage {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-light);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.camera-viewport-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #1F261B;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.camera-video.mirrored {
+  transform: scaleX(-1);
+}
+
+/* Flash Screen Effect */
+.camera-flash-overlay {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.camera-flash-overlay.flashing {
+  animation: shutterFlash 0.35s ease-out;
+}
+
+@keyframes shutterFlash {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+/* Countdown Overlay */
+.countdown-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(39, 51, 34, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 25;
+  pointer-events: none;
+}
+
+.countdown-number {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 15vw, 9rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px var(--matcha-light);
+  animation: countPulse 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  line-height: 1;
+}
+
+.countdown-pose-cue {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #FFF;
+  background: rgba(118, 152, 100, 0.85);
+  padding: 0.4rem 1.4rem;
+  border-radius: var(--radius-full);
+  margin-top: 1rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes countPulse {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+/* Camera Controls Bar */
+.camera-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+}
+
+.camera-utility-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-camera-util {
+  background: var(--matcha-soft);
+  color: var(--matcha-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-camera-util:hover {
+  background: var(--matcha-light);
+}
+
+.camera-select-dropdown {
+  background: white;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-full);
+  padding: 0.45rem 1rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+  max-width: 220px;
+}
+
+/* Shutter Trigger Button */
+.btn-shutter {
+  background: linear-gradient(135deg, var(--matcha-primary) 0%, #587948 100%);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.85rem 2.2rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 6px 18px rgba(118, 152, 100, 0.4);
+  border: 3px solid #FFF;
+  transition: all var(--transition-bounce);
+}
+
+.btn-shutter:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(118, 152, 100, 0.55);
+}
+
+.btn-shutter:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Camera Error / Permission Fallback Box */
+.camera-fallback-card {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: white;
+}
+
+.camera-fallback-card p {
+  color: #E2EBD8;
+  max-width: 440px;
+  font-size: 0.95rem;
+}
+
+/* Right: Live Strip Preview */
+.live-strip-stage {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-light);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  top: 90px;
+}
+
+.live-strip-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px dashed var(--border-light);
+}
+
+.live-strip-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Interactive Strip Card */
+.live-strip-card {
+  width: 220px;
+  border-radius: 16px;
+  padding: 14px 12px 18px;
+  box-shadow: 0 10px 28px rgba(118, 152, 100, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.live-strip-card.grid-mode {
+  width: 260px;
+}
+
+.live-strip-brand {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.live-slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.live-slots-container.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.live-slot-item {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #EAE6DF;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.live-slot-item.active-recording {
+  border: 2px solid var(--matcha-primary);
+  box-shadow: 0 0 0 3px rgba(118, 152, 100, 0.35);
+  animation: recordingPulse 1.2s infinite;
+}
+
+@keyframes recordingPulse {
+  0%, 100% { border-color: var(--matcha-primary); }
+  50% { border-color: #E89898; }
+}
+
+.live-slot-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: photoPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes photoPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.live-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Retake button on single slot */
+.slot-retake-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.live-slot-item:hover .slot-retake-btn {
+  opacity: 1;
+}
+
+/* Post-Session Action Controls */
+.session-completed-actions {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .photobooth-studio-grid {
+    grid-template-columns: 1fr;
+  }
+  .live-strip-stage {
+    position: static;
+    margin-top: 1rem;
+  }
+  .live-strip-card {
+    width: 200px;
+  }
+}

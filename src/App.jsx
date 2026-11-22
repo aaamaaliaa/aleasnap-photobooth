@@ -5,7 +5,7 @@ import HomePage from './components/home/HomePage';
 import AboutPage from './components/about/AboutPage';
 import HowItWorksPage from './components/howItWorks/HowItWorksPage';
 import GalleryPage from './components/gallery/GalleryPage';
-import PhotoboothPreview from './components/photobooth/PhotoboothPreview';
+import PhotoboothPage from './components/photobooth/PhotoboothPage';
 import { PAGES } from './constants/routes';
 import { FRAMES_LIST } from './data/framesData';
 import './styles/global.css';
@@ -13,6 +13,7 @@ import './styles/global.css';
 export default function App() {
   const [activePage, setActivePage] = useState(PAGES.HOME);
   const [selectedFrame, setSelectedFrame] = useState(FRAMES_LIST[0]); // default to Matcha Signature
+  const [sessionData, setSessionData] = useState(null);
 
   const handleNavigate = (page) => {
     setActivePage(page);
@@ -26,6 +27,11 @@ export default function App() {
   const handleSelectFrameAndStart = (frame) => {
     setSelectedFrame(frame);
     handleNavigate(PAGES.PHOTOBOOTH);
+  };
+
+  const handleProceedToEditor = (data) => {
+    setSessionData(data);
+    alert(`🎉 Sesi foto berhasil diambil (${data.photos.filter(Boolean).length} foto)! Siap untuk Tahap 4 (Frame Collection) dan Tahap 5 (Photo Editor & Canvas Strip).`);
   };
 
   return (
@@ -66,10 +72,11 @@ export default function App() {
         )}
 
         {activePage === PAGES.PHOTOBOOTH && (
-          <PhotoboothPreview
+          <PhotoboothPage
             selectedFrame={selectedFrame}
             onNavigateGallery={() => handleNavigate(PAGES.GALLERY)}
             onNavigateHome={() => handleNavigate(PAGES.HOME)}
+            onProceedToEditor={handleProceedToEditor}
           />
         )}
       </main>
