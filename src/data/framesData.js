@@ -1,18 +1,36 @@
-// Centralized frame collection with diverse themes and colors (not only green)
+// Centralized frame collection with diverse themes and colors
 export const FRAME_CATEGORIES = [
   { id: 'all', label: 'All Frames' },
-  { id: 'special', label: 'Special Edition ⭐' },
-  { id: 'cute', label: 'Cute & Coquette 🎀' },
-  { id: 'vintage', label: 'Vintage & Retro 📷' },
-  { id: 'floral', label: 'Floral & Nature 🌸' },
-  { id: 'minimalist', label: 'Minimalist Clean 🤍' },
-  { id: 'y2k', label: 'Y2K Aesthetic 💿' },
-  { id: 'doodle', label: 'Doodle & Playful ✏️' },
-  { id: 'colorful', label: 'Colorful Pop 🎨' },
+  { id: 'special', label: 'Special Edition' },
+  { id: 'cute', label: 'Coquette & Sweet' },
+  { id: 'vintage', label: 'Vintage & Retro' },
+  { id: 'floral', label: 'Floral & Botanical' },
+  { id: 'minimalist', label: 'Minimalist Clean' },
+  { id: 'y2k', label: 'Y2K Aesthetic' },
+  { id: 'colorful', label: 'Vibrant Colors' },
 ];
 
 export const FRAMES_LIST = [
-  // 1. User Reference: Cherry Coquette & Chibi Girl
+  // 1. Signature ALEASNAP Burgundy (Featured Primary)
+  {
+    id: 'aleasnap-signature',
+    title: 'ALEASNAP Signature Burgundy',
+    category: 'special',
+    themeColor: '#4A1727',
+    bgStyle: 'linear-gradient(135deg, #4A1727 0%, #702D42 100%)',
+    borderColor: '#EAD9D5',
+    textColor: '#FFFDFB',
+    description: 'Palet Deep Burgundy khas ALEASNAP dengan border Dusty Rose yang mewah, modern, dan elegan.',
+    tags: ['Signature', 'Burgundy', 'Studio', 'Special Edition'],
+    isPopular: true,
+    slots: 4,
+    decorations: {
+      headerText: 'ALEASNAP • STUDIO',
+      footerStamp: 'A MOMENT WORTH KEEPING'
+    }
+  },
+
+  // 2. User Reference: Cherry Coquette & Chibi Girl
   {
     id: 'cherry-coquette',
     title: 'Cherry Coquette Chibi',
@@ -21,10 +39,9 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #7A1220 0%, #520B15 100%)',
     borderColor: '#871626',
     textColor: '#FFFFFF',
-    description: 'Polka dot burgundy dengan chibi girl, gingham heart, dan cherry bow accents.',
+    description: 'Polka dot burgundy dengan chibi girl, gingham ribbon, dan cherry bow accents.',
     tags: ['Special Edition', 'Cherry', 'Coquette', 'Chibi'],
     isPopular: true,
-    stickerSample: '🍒',
     slots: 3,
     imageOverlayUrl: '/frames/cherry_coquette_cutout.png',
     previewThumbUrl: '/frames/cherry_coquette_strip.png',
@@ -36,11 +53,11 @@ export const FRAMES_LIST = [
     sourceDimensions: { w: 576, h: 1024 },
     decorations: {
       headerText: 'CHERRY COQUETTE',
-      footerStamp: 'STRAWBERRY MILK ♡'
+      footerStamp: 'STRAWBERRY EDITION'
     }
   },
 
-  // 2. User Reference: Retro Airmail & Polaroid
+  // 3. User Reference: Retro Airmail & Polaroid
   {
     id: 'airmail-polaroid',
     title: 'Retro Airmail & Polaroid',
@@ -52,7 +69,6 @@ export const FRAMES_LIST = [
     description: 'Surat pos udara klasik dengan kamera Polaroid OneStep, telepon retro, dan stempel pos.',
     tags: ['Special Edition', 'Polaroid', 'Airmail', 'Retro'],
     isPopular: true,
-    stickerSample: '📷',
     slots: 3,
     imageOverlayUrl: '/frames/airmail_polaroid_cutout.png',
     previewThumbUrl: '/frames/airmail_polaroid_strip.png',
@@ -68,27 +84,26 @@ export const FRAMES_LIST = [
     }
   },
 
-  // 3. Signature Matcha Green
+  // 4. Seoul Clean Ivory
   {
-    id: 'matcha-classic',
-    title: 'Matcha Signature',
-    category: 'cute',
-    themeColor: '#769864',
-    bgStyle: 'linear-gradient(135deg, #E9F2E2 0%, #D4E6C7 100%)',
-    borderColor: '#769864',
-    textColor: '#334426',
-    description: 'Fresh matcha aesthetic with clean Korean photobooth typography.',
-    tags: ['Matcha', 'Clean', 'Signature'],
+    id: 'minimal-cream',
+    title: 'Warm Ivory Editorial',
+    category: 'minimalist',
+    themeColor: '#702D42',
+    bgStyle: 'linear-gradient(135deg, #FFFDFB 0%, #F8F3EF 100%)',
+    borderColor: '#EAD9D5',
+    textColor: '#4A1727',
+    description: 'Tata letak editorial ultra-clean dengan warm ivory, border tipis, dan tipografi serif elegan.',
+    tags: ['Editorial', 'Ivory', 'Clean', 'Minimalist'],
     isPopular: true,
-    stickerSample: '🍵',
     slots: 4,
     decorations: {
-      headerText: 'MATCHABOX • 말차',
-      footerStamp: 'SEOUL MEMORIES'
+      headerText: 'ALEASNAP ARCHIVE',
+      footerStamp: 'A MOMENT WORTH KEEPING'
     }
   },
 
-  // 4. Sakura Petals
+  // 5. Sakura Petals
   {
     id: 'sakura-blossom',
     title: 'Sakura Petals',
@@ -97,18 +112,17 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #FFF0F3 0%, #FFD6DF 100%)',
     borderColor: '#F299AC',
     textColor: '#6B2D3B',
-    description: 'Romantic pastel cherry blossom petals falling gently on soft pink border.',
+    description: 'Kelopak bunga sakura lembut dengan latar pastel pink romantis.',
     tags: ['Floral', 'Pink', 'Romantic'],
-    isPopular: true,
-    stickerSample: '🌸',
+    isPopular: false,
     slots: 4,
     decorations: {
-      headerText: 'SAKURA MOMENTS • 벚꽃',
+      headerText: 'SAKURA MOMENTS',
       footerStamp: 'SPRING BLOSSOM'
     }
   },
 
-  // 5. 1998 Analog Film
+  // 6. 1998 Analog Film
   {
     id: 'vintage-sepia-film',
     title: '1998 Analog Film',
@@ -117,10 +131,9 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #F5EFEB 0%, #E6DAC8 100%)',
     borderColor: '#A88968',
     textColor: '#4A3521',
-    description: 'Grainy film borders with authentic light leaks and retro date timestamp.',
+    description: 'Border film analog bernuansa vintage dengan date stamp autentik.',
     tags: ['Film', 'Analog', 'Nostalgia'],
-    isPopular: true,
-    stickerSample: '🎞️',
+    isPopular: false,
     slots: 4,
     decorations: {
       headerText: 'ANALOG FILM 1998',
@@ -128,43 +141,22 @@ export const FRAMES_LIST = [
     }
   },
 
-  // 6. Y2K Cyber Heart
+  // 7. Y2K Cyber Pop
   {
     id: 'y2k-cyber-pop',
-    title: 'Y2K Cyber Heart',
+    title: 'Y2K Cyber Violet',
     category: 'y2k',
     themeColor: '#9381FF',
     bgStyle: 'linear-gradient(135deg, #F3EEFF 0%, #D8CEFF 100%)',
     borderColor: '#9381FF',
     textColor: '#3C2E77',
-    description: 'Holographic pastel violet with chrome bubble hearts and cyber aesthetics.',
+    description: 'Nuansa lavender futuristik Y2K dengan garis border krom minimalis.',
     tags: ['Y2K', 'Cyber', 'Pastel Violet'],
-    isPopular: true,
-    stickerSample: '💿',
-    slots: 4,
-    decorations: {
-      headerText: 'CYBER ANGEL 2000',
-      footerStamp: 'DIGITAL HEART'
-    }
-  },
-
-  // 7. Seoul Clean Ivory
-  {
-    id: 'minimal-cream',
-    title: 'Seoul Clean Ivory',
-    category: 'minimalist',
-    themeColor: '#8C827A',
-    bgStyle: 'linear-gradient(135deg, #FFFFFF 0%, #F9F6F0 100%)',
-    borderColor: '#E8E1D7',
-    textColor: '#3A3530',
-    description: 'Ultra-clean, modern gallery layout with generous whitespace & elegant serif accents.',
-    tags: ['Clean', 'Minimal', 'Neutral'],
     isPopular: false,
-    stickerSample: '🤍',
     slots: 4,
     decorations: {
-      headerText: 'STUDIO ESSENTIALS',
-      footerStamp: 'MINIMAL MEMORY'
+      headerText: 'CYBER ARCHIVE 2000',
+      footerStamp: 'DIGITAL EDITION'
     }
   },
 
@@ -177,34 +169,32 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #FFFDE8 0%, #FFF2A6 100%)',
     borderColor: '#FFD700',
     textColor: '#5E4700',
-    description: 'Vibrant cheerful butter yellow with clean minimal borders and sunny energy.',
-    tags: ['Cheerful', 'Yellow', 'Summer'],
-    isPopular: true,
-    stickerSample: '☀️',
+    description: 'Warna kuning butter hangat yang cerah dengan border bersih bernuansa musim panas.',
+    tags: ['Cheerful', 'Yellow', 'Warmth'],
+    isPopular: false,
     slots: 4,
     decorations: {
-      headerText: 'SUNNY DAY VIBES',
-      footerStamp: 'SMILE BRIGHT'
+      headerText: 'SUNSHINE EDITION',
+      footerStamp: 'SUMMER ARCHIVE'
     }
   },
 
-  // 9. Winter Wonderland
+  // 9. Winter Glacier Blue
   {
     id: 'winter-snow-magic',
-    title: 'Winter Wonderland',
+    title: 'Glacier Pastel Blue',
     category: 'cute',
     themeColor: '#5B92E5',
     bgStyle: 'linear-gradient(135deg, #F0F7FF 0%, #D6EAFF 100%)',
     borderColor: '#7BACF0',
     textColor: '#1A4280',
-    description: 'Crisp winter wonderland with sparkling icy pastel blues.',
-    tags: ['Winter', 'Snow', 'Pastel Blue'],
+    description: 'Biru pastel sejuk nan tenang yang memberikan nuansa sejuk dan bersih.',
+    tags: ['Winter', 'Pastel Blue', 'Clean'],
     isPopular: false,
-    stickerSample: '❄️',
     slots: 4,
     decorations: {
-      headerText: 'WINTER HOLIDAYS • 눈꽃',
-      footerStamp: 'WARM COZY WINTER'
+      headerText: 'WINTER ARCHIVE',
+      footerStamp: 'SEASONAL EDITION'
     }
   },
 
@@ -217,35 +207,33 @@ export const FRAMES_LIST = [
     bgStyle: 'linear-gradient(135deg, #F8F7F4 0%, #EFECE6 100%)',
     borderColor: '#2B2B2B',
     textColor: '#1F1F1F',
-    description: 'Classic editorial tabloid styling with vintage newspaper headlines and stamp date.',
+    description: 'Gaya editorial monokrom klasik menyerupai tata letak koran cetak vintage.',
     tags: ['Editorial', 'Monochrome', 'Vintage'],
     isPopular: false,
-    stickerSample: '📰',
     slots: 4,
     decorations: {
-      headerText: 'THE SEOUL DAILY GAZETTE',
-      footerStamp: 'EDITION NO. 1024'
+      headerText: 'THE STUDIO GAZETTE',
+      footerStamp: 'ARCHIVE NO. 1024'
     }
   }
 ];
 
-export function createCustomFrame({ id, title, category = 'cute', themeColor = '#769864', bgStyle, borderColor, textColor, description = '', imageOverlayUrl = null }) {
+export function createCustomFrame({ id, title, category = 'cute', themeColor = '#4A1727', bgStyle, borderColor, textColor, description = '', imageOverlayUrl = null }) {
   return {
     id: id || `custom-frame-${Date.now()}`,
     title: title || 'Custom Frame',
     category,
     themeColor,
-    bgStyle: bgStyle || `linear-gradient(135deg, #FFFFFF 0%, #F5F8F2 100%)`,
+    bgStyle: bgStyle || `linear-gradient(135deg, #FFFDFB 0%, #F8F3EF 100%)`,
     borderColor: borderColor || themeColor,
-    textColor: textColor || '#2C3527',
+    textColor: textColor || '#4A1727',
     description,
     tags: ['Custom', category],
     isPopular: false,
-    stickerSample: '🎨',
     slots: 4,
     imageOverlayUrl,
     decorations: {
-      headerText: title.toUpperCase(),
+      headerText: (title || 'ALEASNAP').toUpperCase(),
       footerStamp: 'SPECIAL EDITION'
     }
   };

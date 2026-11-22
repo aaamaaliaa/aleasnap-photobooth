@@ -18,7 +18,7 @@ export default function FinalPreviewModal({
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = renderedImageUrl;
-    link.download = `MatchaBox_${Date.now()}.png`;
+    link.download = `ALEASNAP_${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -38,8 +38,8 @@ export default function FinalPreviewModal({
           {/* Header */}
           <div className="preview-modal-header">
             <div className="preview-modal-title">
-              <Sparkles size={22} color="var(--matcha-primary)" />
-              <span>Hasil Akhir Photo Strip ✨</span>
+              <Sparkles size={22} color="var(--burgundy-deep)" />
+              <span>Hasil Akhir Photo Strip</span>
             </div>
             <button className="frame-modal-close-btn" onClick={onClose} aria-label="Close">
               <X size={20} />
@@ -60,11 +60,11 @@ export default function FinalPreviewModal({
             {/* Right: Actions */}
             <div className="preview-actions-sidebar">
               <div className="preview-info-box">
-                <h4 style={{ color: 'var(--matcha-dark)', marginBottom: '0.25rem' }}>
-                  Photo Strip Siap Diunduh! 📸
+                <h4 style={{ color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)', marginBottom: '0.25rem' }}>
+                  Photo Strip Siap Diunduh
                 </h4>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Frame: <strong>{frameTitle}</strong> • Format PNG Kualitas Tinggi.
+                  Frame: <strong>{frameTitle}</strong> • Format PNG Resolusi Penuh.
                 </p>
               </div>
 
@@ -82,7 +82,7 @@ export default function FinalPreviewModal({
                   onClick={() => setIsQrModalOpen(true)}
                 >
                   <QrCode size={18} />
-                  <span>Generate QR Code (Download di HP)</span>
+                  <span>Download Lewat QR Code (HP)</span>
                 </button>
 
                 {/* 3. Edit Again Button */}
@@ -92,7 +92,7 @@ export default function FinalPreviewModal({
                   style={{ justifyContent: 'center' }}
                 >
                   <Edit3 size={16} />
-                  <span>Edit Again (Ganti Filter/Stiker)</span>
+                  <span>Edit Kembali (Filter & Teks)</span>
                 </button>
 
                 {/* 4. Retake Button */}
@@ -107,7 +107,7 @@ export default function FinalPreviewModal({
                   }}
                 >
                   <RotateCcw size={15} />
-                  <span>Retake Photos (Ulangi Foto)</span>
+                  <span>Ulangi Sesi Foto (Retake)</span>
                 </button>
               </div>
             </div>

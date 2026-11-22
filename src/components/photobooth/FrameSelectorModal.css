@@ -1,7 +1,7 @@
 .frame-modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(39, 51, 34, 0.6);
+  background-color: rgba(74, 23, 39, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
@@ -12,16 +12,16 @@
 }
 
 .frame-modal-box {
-  background-color: var(--cream);
+  background-color: var(--warm-cream);
   border-radius: var(--radius-xl);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   width: 100%;
   max-width: 980px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 50px rgba(74, 23, 39, 0.25);
   animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -32,8 +32,8 @@
 
 .frame-modal-header {
   padding: 1.5rem 2rem;
-  background: white;
-  border-bottom: 2px solid var(--border-light);
+  background: var(--soft-ivory);
+  border-bottom: 1px solid var(--dusty-rose);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,31 +43,35 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 1.4rem;
-  color: var(--matcha-dark);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--burgundy-deep);
 }
 
 .frame-modal-close-btn {
-  background: var(--matcha-soft);
-  color: var(--matcha-dark);
+  background: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
+  border: 1px solid var(--dusty-rose);
   border-radius: 50%;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .frame-modal-close-btn:hover {
-  background: var(--matcha-light);
+  background: var(--burgundy-deep);
+  color: var(--soft-ivory);
 }
 
 /* Category & Action Tabs */
 .frame-modal-toolbar {
   padding: 1rem 2rem;
-  background: white;
-  border-bottom: 1px solid var(--border-light);
+  background: var(--soft-ivory);
+  border-bottom: 1px solid var(--dusty-rose);
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -87,27 +91,28 @@
 
 .modal-cat-btn {
   white-space: nowrap;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   padding: 0.45rem 1rem;
   border-radius: var(--radius-full);
-  background: var(--cream);
+  background: var(--warm-cream);
   color: var(--text-muted);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .modal-cat-btn:hover {
-  background: var(--matcha-soft);
-  color: var(--matcha-dark);
+  background: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
 }
 
 .modal-cat-btn.active {
-  background: var(--matcha-primary);
-  color: white;
-  border-color: var(--matcha-primary);
-  box-shadow: 0 2px 8px rgba(118, 152, 100, 0.3);
+  background: var(--burgundy-deep);
+  color: var(--soft-ivory);
+  border-color: var(--burgundy-deep);
+  box-shadow: 0 2px 8px rgba(74, 23, 39, 0.2);
 }
 
 .frame-modal-subactions {
@@ -132,9 +137,9 @@
 }
 
 .frame-catalog-card {
-  background: white;
+  background: var(--soft-ivory);
   border-radius: var(--radius-md);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   padding: 0.85rem;
   display: flex;
   flex-direction: column;
@@ -145,19 +150,18 @@
 
 .frame-catalog-card:hover {
   transform: translateY(-4px);
-  border-color: var(--matcha-light);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--burgundy-wine);
+  box-shadow: 0 6px 18px rgba(74, 23, 39, 0.08);
 }
 
 .frame-catalog-card.active-selected {
-  border-color: var(--matcha-primary);
-  box-shadow: 0 0 0 3px rgba(118, 152, 100, 0.3);
-  background: #FCFDF9;
+  border-color: var(--burgundy-deep);
+  box-shadow: 0 0 0 2px var(--burgundy-deep);
 }
 
 .catalog-card-preview {
   height: 140px;
-  border-radius: 8px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,7 +172,7 @@
 .catalog-mini-strip {
   width: 68px;
   background: white;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 5px 4px 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -180,7 +184,7 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   background: #EAE6DF;
-  border-radius: 3px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,8 +193,9 @@
 
 .catalog-card-title {
   font-size: 0.95rem;
+  font-family: var(--font-serif);
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--burgundy-deep);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -215,14 +220,15 @@
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 /* Modal Footer */
 .frame-modal-footer {
   padding: 1.25rem 2rem;
-  background: white;
-  border-top: 1px solid var(--border-light);
+  background: var(--soft-ivory);
+  border-top: 1px solid var(--dusty-rose);
   display: flex;
   align-items: center;
   justify-content: space-between;

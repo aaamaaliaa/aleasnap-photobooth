@@ -5,9 +5,9 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
   const [selectedLayout, setSelectedLayout] = useState(selectedFrame?.slots || 4);
 
   const layouts = [
-    { slots: 2, label: '2 Photos', desc: 'Duo Moments', icon: '✌️' },
-    { slots: 3, label: '3 Photos', desc: 'Trio Classic', icon: '✨' },
-    { slots: 4, label: '4 Photos', desc: 'Korean 4-Cut', icon: '📸' },
+    { slots: 2, label: '2 Photos', desc: 'Duo Moments' },
+    { slots: 3, label: '3 Photos', desc: 'Trio Classic' },
+    { slots: 4, label: '4 Photos', desc: 'Classic 4-Cut' },
   ];
 
   return (
@@ -22,8 +22,8 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
         </button>
 
         <span className="badge-cute">
-          <Sparkles size={14} color="var(--matcha-primary)" />
-          Tahap 2 Complete • Photobooth Ready
+          <Sparkles size={14} color="var(--burgundy-deep)" />
+          ALEASNAP Studio Ready
         </span>
       </div>
 
@@ -32,8 +32,8 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
         <div style={{
           width: '64px',
           height: '64px',
-          background: 'var(--matcha-soft)',
-          color: 'var(--matcha-dark)',
+          background: 'var(--dusty-rose-light)',
+          color: 'var(--burgundy-deep)',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
@@ -43,20 +43,20 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
           <Camera size={32} />
         </div>
 
-        <h1 style={{ fontSize: '2.2rem', marginBottom: '0.75rem', color: 'var(--text-main)' }}>
-          Photobooth Session Studio 📸
+        <h1 style={{ fontSize: '2.2rem', marginBottom: '0.75rem', color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>
+          Photobooth Session Studio
         </h1>
         <p style={{ color: 'var(--text-muted)', maxWidth: '580px', margin: '0 auto 2rem', fontSize: '1.05rem' }}>
-          Navigasi ke Photobooth berhasil! Pilih layout foto dan cek frame sebelum sesi pemotretan aktif di Tahap 3.
+          Navigasi ke Photobooth berhasil! Pilih tata letak foto dan frame sebelum memulai sesi pemotretan.
         </p>
 
         {/* Selected Frame Info */}
         <div style={{
-          background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #E9F2E2 0%, #D4E6C7 100%)',
+          background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #4A1727 0%, #702D42 100%)',
           borderRadius: 'var(--radius-lg)',
           padding: '1.5rem',
           marginBottom: '2rem',
-          border: `2px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--matcha-primary)'}`,
+          border: `2px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--dusty-rose)'}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -67,11 +67,11 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
             <span style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
               Active Frame
             </span>
-            <h3 style={{ margin: '0.2rem 0', color: selectedFrame?.textColor || 'var(--text-main)' }}>
-              {selectedFrame?.title || 'Matcha Signature'} {selectedFrame?.stickerSample || '🍵'}
+            <h3 style={{ margin: '0.2rem 0', color: selectedFrame?.textColor || 'var(--soft-ivory)' }}>
+              {selectedFrame?.title || 'ALEASNAP Signature'}
             </h3>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', margin: 0 }}>
-              {selectedFrame?.description || 'Classic matcha aesthetic with cute leaf motifs.'}
+              {selectedFrame?.description || 'Signature deep burgundy palette with dusty rose accents.'}
             </p>
           </div>
 
@@ -87,8 +87,8 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
 
         {/* Layout Selection Preview */}
         <div style={{ marginBottom: '2.5rem', textAlign: 'left' }}>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Layout size={20} color="var(--matcha-primary)" />
+          <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-serif)', color: 'var(--burgundy-deep)' }}>
+            <Layout size={20} color="var(--burgundy-deep)" />
             Choose Photo Strip Layout
           </h3>
 
@@ -101,8 +101,8 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
                   key={layout.slots}
                   onClick={() => setSelectedLayout(layout.slots)}
                   style={{
-                    border: isSelected ? '2px solid var(--matcha-primary)' : '2px solid var(--border-light)',
-                    background: isSelected ? 'var(--matcha-soft)' : 'white',
+                    border: isSelected ? '2px solid var(--burgundy-deep)' : '1px solid var(--dusty-rose)',
+                    background: isSelected ? 'var(--dusty-rose-light)' : 'white',
                     borderRadius: 'var(--radius-md)',
                     padding: '1.25rem',
                     cursor: 'pointer',
@@ -111,36 +111,14 @@ export default function PhotoboothPreview({ selectedFrame, onNavigateGallery, on
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '1.5rem' }}>{layout.icon}</span>
-                    {isSelected && <Check size={18} color="var(--matcha-primary)" />}
+                    <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--burgundy-deep)' }}>{layout.slots}x</span>
+                    {isSelected && <Check size={18} color="var(--burgundy-deep)" />}
                   </div>
-                  <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>{layout.label}</div>
+                  <div style={{ fontWeight: 700, color: 'var(--burgundy-deep)' }}>{layout.label}</div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{layout.desc}</div>
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* Notice for Tahap 3 */}
-        <div style={{
-          background: 'var(--matcha-soft)',
-          border: '1.5px dashed var(--matcha-primary)',
-          borderRadius: 'var(--radius-md)',
-          padding: '1.25rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem',
-          textAlign: 'left'
-        }}>
-          <Shield size={28} color="var(--matcha-dark)" style={{ flexShrink: 0 }} />
-          <div>
-            <div style={{ fontWeight: 700, color: 'var(--matcha-dark)', fontSize: '0.95rem' }}>
-              Kamera & Sesi Foto Siap Dihubungkan di Tahap 3
-            </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              Pada Tahap 3, live camera stream (getUserMedia), mirror mode, automatic countdown (3s), photo capture, dan retake akan diaktifkan secara interaktif!
-            </div>
           </div>
         </div>
       </div>

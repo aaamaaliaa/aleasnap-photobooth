@@ -45,8 +45,8 @@ export default function FrameSelectorModal({
         id: `user-frame-${Date.now()}`,
         title: file.name.replace(/\.[^/.]+$/, ''),
         category: 'cute',
-        themeColor: '#769864',
-        borderColor: '#769864',
+        themeColor: '#4A1727',
+        borderColor: '#EAD9D5',
         imageOverlayUrl: dataUrl,
         description: 'Uploaded custom frame design.'
       });
@@ -65,7 +65,7 @@ export default function FrameSelectorModal({
         {/* Header */}
         <div className="frame-modal-header">
           <div className="frame-modal-title">
-            <Palette size={22} color="var(--matcha-primary)" />
+            <Palette size={22} color="var(--burgundy-deep)" />
             <span>Pilih Koleksi Frame Photobooth</span>
           </div>
           <button className="frame-modal-close-btn" onClick={onClose} aria-label="Close modal">
@@ -150,9 +150,9 @@ export default function FrameSelectorModal({
                     ) : (
                       <div 
                         className="catalog-mini-strip"
-                        style={{ border: `2px solid ${frame.borderColor}` }}
+                        style={{ border: `2px solid ${frame.borderColor}`, background: frame.bgStyle }}
                       >
-                        <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
+                        <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor, letterSpacing: '0.04em' }}>
                           {frame.title}
                         </div>
                         <div className="catalog-mini-slot">1</div>
@@ -164,7 +164,6 @@ export default function FrameSelectorModal({
 
                   <div className="catalog-card-title">
                     <span>{frame.title}</span>
-                    <span>{frame.stickerSample}</span>
                   </div>
 
                   <p className="catalog-card-desc">{frame.description}</p>
@@ -172,9 +171,9 @@ export default function FrameSelectorModal({
                   <button
                     className="catalog-card-btn"
                     style={{
-                      backgroundColor: isSelected ? 'var(--matcha-primary)' : 'var(--matcha-soft)',
-                      color: isSelected ? 'white' : 'var(--matcha-dark)',
-                      border: 'none'
+                      backgroundColor: isSelected ? 'var(--burgundy-deep)' : 'var(--dusty-rose-light)',
+                      color: isSelected ? 'var(--soft-ivory)' : 'var(--burgundy-deep)',
+                      border: isSelected ? '1px solid var(--burgundy-deep)' : '1px solid var(--dusty-rose)'
                     }}
                   >
                     {isSelected ? (
@@ -194,7 +193,7 @@ export default function FrameSelectorModal({
         {/* Footer */}
         <div className="frame-modal-footer">
           <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-            Frame Aktif: <strong style={{ color: 'var(--matcha-dark)' }}>{currentFrame?.title}</strong> {currentFrame?.stickerSample}
+            Frame Aktif: <strong style={{ color: 'var(--burgundy-deep)' }}>{currentFrame?.title}</strong>
           </div>
           <button className="btn btn-primary" onClick={onClose} style={{ padding: '0.5rem 1.4rem', fontSize: '0.9rem' }}>
             Terapkan & Tutup

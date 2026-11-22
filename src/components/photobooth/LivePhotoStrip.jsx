@@ -54,11 +54,12 @@ export default function LivePhotoStrip({
           onClick={onOpenFrameSelector}
           style={{
             fontSize: '0.8rem',
-            color: 'var(--matcha-primary)',
+            color: 'var(--burgundy-deep)',
             fontWeight: 700,
-            background: 'var(--matcha-soft)',
+            background: 'var(--dusty-rose-light)',
             padding: '4px 10px',
             borderRadius: '12px',
+            border: '1px solid var(--dusty-rose)',
             cursor: 'pointer'
           }}
         >
@@ -97,8 +98,8 @@ export default function LivePhotoStrip({
                   height: `${(coord.h / sh) * 100}%`,
                   overflow: 'hidden',
                   backgroundColor: '#EAE5DE',
-                  border: isRecording ? '2px solid var(--matcha-primary)' : 'none',
-                  boxShadow: isRecording ? '0 0 0 2px var(--matcha-primary)' : 'none'
+                  border: isRecording ? '2px solid var(--burgundy-deep)' : 'none',
+                  boxShadow: isRecording ? '0 0 0 2px var(--burgundy-deep)' : 'none'
                 }}
               >
                 {photoSrc ? (
@@ -121,7 +122,7 @@ export default function LivePhotoStrip({
                   </>
                 ) : (
                   <div className="live-slot-empty" style={{ height: '100%' }}>
-                    <span>{isRecording ? '📸' : `Slot #${idx + 1}`}</span>
+                    <span>{isRecording ? 'REC' : `Slot #${idx + 1}`}</span>
                   </div>
                 )}
               </div>
@@ -147,16 +148,16 @@ export default function LivePhotoStrip({
         <div 
           className={`live-strip-card ${isGrid ? 'grid-mode' : ''}`}
           style={{
-            background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #F9FAF5 0%, #EBF2E3 100%)',
-            border: `3px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--matcha-primary)'}`
+            background: selectedFrame ? selectedFrame.bgStyle : 'linear-gradient(135deg, #4A1727 0%, #702D42 100%)',
+            border: `3px solid ${selectedFrame ? selectedFrame.borderColor : 'var(--dusty-rose)'}`
           }}
         >
           {/* Header Brand */}
           <div 
             className="live-strip-brand"
-            style={{ color: selectedFrame?.textColor || 'var(--text-main)' }}
+            style={{ color: selectedFrame?.textColor || 'var(--soft-ivory)' }}
           >
-            {selectedFrame?.decorations?.headerText || selectedFrame?.title || 'MatchaBox'}
+            {selectedFrame?.decorations?.headerText || selectedFrame?.title || 'ALEASNAP'}
           </div>
 
           {/* Dynamic Slots */}
@@ -189,7 +190,7 @@ export default function LivePhotoStrip({
                     </>
                   ) : (
                     <div className="live-slot-empty">
-                      <span>{isRecording ? '📸' : `Slot #${index + 1}`}</span>
+                      <span>{isRecording ? 'REC' : `Slot #${index + 1}`}</span>
                     </div>
                   )}
                 </div>
@@ -201,16 +202,16 @@ export default function LivePhotoStrip({
           <div style={{
             marginTop: '10px',
             paddingTop: '6px',
-            borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
+            borderTop: '1px dashed rgba(255, 255, 255, 0.25)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             fontSize: '0.65rem',
-            color: selectedFrame?.textColor || 'var(--text-muted)'
+            color: selectedFrame?.textColor || 'var(--soft-ivory)'
           }}>
             <span>{todayFormatted}</span>
-            <span style={{ fontWeight: 700 }}>
-              {selectedFrame?.decorations?.footerStamp || 'MATCHABOX'}
+            <span style={{ fontWeight: 700, letterSpacing: '0.05em' }}>
+              {selectedFrame?.decorations?.footerStamp || 'ALEASNAP'}
             </span>
           </div>
         </div>
@@ -301,7 +302,7 @@ export default function LivePhotoStrip({
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 style={{ marginBottom: '0.5rem', color: 'var(--matcha-dark)' }}>
+            <h3 style={{ marginBottom: '0.5rem', fontFamily: 'var(--font-serif)', color: 'var(--burgundy-deep)' }}>
               Hasil Render HTML5 Canvas
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>

@@ -128,8 +128,8 @@ export default function PhotoEditorPage({
         </button>
 
         <span className="badge-cute">
-          <Sparkles size={14} color="var(--matcha-primary)" />
-          Photo Editor & Tone Studio
+          <Sparkles size={14} color="var(--burgundy-deep)" />
+          Photo Editor & Studio Tone
         </span>
       </div>
 
@@ -147,7 +147,7 @@ export default function PhotoEditorPage({
                   aspectRatio: `${currentFrame.sourceDimensions?.w || 576} / ${currentFrame.sourceDimensions?.h || 1024}`,
                   borderRadius: '16px',
                   overflow: 'hidden',
-                  boxShadow: '0 16px 36px rgba(0, 0, 0, 0.22)',
+                  boxShadow: '0 16px 36px rgba(74, 23, 39, 0.15)',
                   backgroundColor: currentFrame.themeColor || '#FFF'
                 }}
               >
@@ -209,15 +209,15 @@ export default function PhotoEditorPage({
                 className={`editor-strip-card ${isGrid ? 'grid-mode' : ''}`}
                 style={{
                   background: currentFrame ? currentFrame.bgStyle : '#FFF',
-                  border: `3px solid ${currentFrame ? currentFrame.borderColor : 'var(--matcha-primary)'}`
+                  border: `3px solid ${currentFrame ? currentFrame.borderColor : 'var(--dusty-rose)'}`
                 }}
               >
                 {/* Header Title */}
                 <div
                   className="editor-strip-header"
-                  style={{ color: currentFrame?.textColor || 'var(--text-main)' }}
+                  style={{ color: currentFrame?.textColor || 'var(--soft-ivory)' }}
                 >
-                  {customText.trim() ? customText : (currentFrame?.decorations?.headerText || currentFrame?.title)}
+                  {customText.trim() ? customText : (currentFrame?.decorations?.headerText || currentFrame?.title || 'ALEASNAP')}
                 </div>
 
                 {/* Photos Slots */}
@@ -244,16 +244,16 @@ export default function PhotoEditorPage({
                 <div style={{
                   marginTop: '12px',
                   paddingTop: '6px',
-                  borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
+                  borderTop: '1px dashed rgba(255, 255, 255, 0.25)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   fontSize: '0.65rem',
-                  color: currentFrame?.textColor || 'var(--text-muted)'
+                  color: currentFrame?.textColor || 'var(--soft-ivory)'
                 }}>
                   <span>{todayFormatted}</span>
-                  <span style={{ fontWeight: 700 }}>
-                    {currentFrame?.decorations?.footerStamp || 'MATCHABOX'}
+                  <span style={{ fontWeight: 700, letterSpacing: '0.05em' }}>
+                    {currentFrame?.decorations?.footerStamp || 'ALEASNAP'}
                   </span>
                 </div>
               </div>
@@ -261,13 +261,13 @@ export default function PhotoEditorPage({
           </div>
 
           <div style={{ marginTop: '1.25rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            💡 <em>Semua filter warna, pencahayaan, dan teks akan ter-render otomatis ke Canvas resolusi tinggi.</em>
+            <em>Semua filter warna, pencahayaan, dan teks akan ter-render otomatis ke Canvas resolusi tinggi.</em>
           </div>
         </div>
 
         {/* Right: Tabbed Controls Panel */}
         <div className="editor-controls-panel">
-          {/* Tabs Navigation (Stickers tab removed cleanly) */}
+          {/* Tabs Navigation */}
           <div className="editor-tabs-bar">
             <button
               className={`editor-tab-btn ${activeTab === 'filters' ? 'active' : ''}`}
@@ -306,11 +306,11 @@ export default function PhotoEditorPage({
           {activeTab === 'filters' && (
             <div className="editor-tab-body">
               <div>
-                <h4 style={{ fontSize: '0.95rem', marginBottom: '0.5rem', color: 'var(--text-main)' }}>
-                  Pilih Filter Estetik 🎨
+                <h4 style={{ fontSize: '0.95rem', marginBottom: '0.5rem', color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>
+                  Pilih Filter Estetik
                 </h4>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                  Filter bernuansa studio foto Korea, analog film, dan pastel natural.
+                  Filter bernuansa studio foto Korea, analog film, dan tonal natural.
                 </p>
                 <div className="filters-preset-grid">
                   {PHOTO_FILTERS.map((f) => (
@@ -332,10 +332,10 @@ export default function PhotoEditorPage({
           {activeTab === 'adjust' && (
             <div className="editor-tab-body">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h4 style={{ fontSize: '0.95rem', color: 'var(--text-main)' }}>Kecerahan & Kontras</h4>
+                <h4 style={{ fontSize: '0.95rem', color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>Kecerahan & Kontras</h4>
                 <button
                   onClick={handleResetAdjustments}
-                  style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '3px' }}
+                  style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '3px', cursor: 'pointer' }}
                 >
                   <RefreshCw size={12} /> Reset
                 </button>
@@ -379,10 +379,10 @@ export default function PhotoEditorPage({
           {activeTab === 'frames' && (
             <div className="editor-tab-body">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <h4 style={{ fontSize: '0.95rem', color: 'var(--text-main)' }}>Ganti Desain Frame</h4>
+                <h4 style={{ fontSize: '0.95rem', color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>Ganti Desain Frame</h4>
                 <button
                   onClick={() => setIsFrameModalOpen(true)}
-                  style={{ fontSize: '0.8rem', color: 'var(--matcha-primary)', fontWeight: 700, textDecoration: 'underline' }}
+                  style={{ fontSize: '0.8rem', color: 'var(--burgundy-deep)', fontWeight: 700, textDecoration: 'underline', cursor: 'pointer' }}
                 >
                   Buka Galeri Lengkap
                 </button>
@@ -401,8 +401,8 @@ export default function PhotoEditorPage({
                       style={{
                         padding: '0.6rem 0.85rem',
                         borderRadius: 'var(--radius-sm)',
-                        border: isCur ? '2px solid var(--matcha-primary)' : '1.5px solid var(--border-light)',
-                        background: isCur ? 'var(--matcha-soft)' : 'white',
+                        border: isCur ? '2px solid var(--burgundy-deep)' : '1px solid var(--dusty-rose)',
+                        background: isCur ? 'var(--dusty-rose-light)' : 'var(--soft-ivory)',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -411,9 +411,8 @@ export default function PhotoEditorPage({
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                        <span style={{ fontSize: '1.2rem' }}>{f.stickerSample}</span>
                         <div>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--burgundy-deep)' }}>
                             {f.title}
                           </div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -421,7 +420,7 @@ export default function PhotoEditorPage({
                           </div>
                         </div>
                       </div>
-                      {isCur && <Check size={16} color="var(--matcha-primary)" />}
+                      {isCur && <Check size={16} color="var(--burgundy-deep)" />}
                     </div>
                   );
                 })}
@@ -432,8 +431,8 @@ export default function PhotoEditorPage({
           {/* Tab 4: Custom Text Decoration */}
           {activeTab === 'text' && (
             <div className="editor-tab-body">
-              <h4 style={{ fontSize: '0.95rem', color: 'var(--text-main)' }}>
-                Teks Dekorasi Header ✍️
+              <h4 style={{ fontSize: '0.95rem', color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>
+                Teks Dekorasi Header
               </h4>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                 Tulis nama, tanggal, atau pesan kenangan untuk dicetak pada bagian photo strip.
@@ -442,7 +441,7 @@ export default function PhotoEditorPage({
               <div className="text-input-group">
                 <input
                   type="text"
-                  placeholder="Contoh: Amalia & Besties ♡"
+                  placeholder="Contoh: ALEASNAP MEMORIES"
                   value={customText}
                   onChange={(e) => setCustomText(e.target.value)}
                   className="cute-text-input"
@@ -453,7 +452,7 @@ export default function PhotoEditorPage({
                   {customText && (
                     <button
                       onClick={() => setCustomText('')}
-                      style={{ color: 'var(--matcha-primary)', fontWeight: 600 }}
+                      style={{ color: 'var(--burgundy-deep)', fontWeight: 600, cursor: 'pointer' }}
                     >
                       Hapus Teks
                     </button>

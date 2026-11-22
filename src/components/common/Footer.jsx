@@ -17,16 +17,16 @@ export default function Footer({ setActivePage }) {
         <div className="footer-top">
           <div className="footer-brand">
             <div className="footer-logo">
-              <Camera size={22} color="var(--matcha-primary)" />
-              <span>MatchaBox 🍵</span>
+              <Camera size={22} color="var(--burgundy-deep)" />
+              <span>ALEASNAP</span>
             </div>
             <p className="footer-desc">
-              Capture your little moments into lovely memories. Cute Korean online photobooth with aesthetic frames and easy QR code downloads.
+              An elegant online photobooth studio designed to capture your special moments with timeless aesthetic frames and instant mobile downloads.
             </p>
           </div>
 
           <div>
-            <h4 className="footer-title">Menu</h4>
+            <h4 className="footer-title">Navigation</h4>
             <ul className="footer-links">
               <li><button onClick={() => handleNav(PAGES.HOME)}>Home</button></li>
               <li><button onClick={() => handleNav(PAGES.ABOUT)}>About Us</button></li>
@@ -36,18 +36,18 @@ export default function Footer({ setActivePage }) {
           </div>
 
           <div>
-            <h4 className="footer-title">Photobooth</h4>
+            <h4 className="footer-title">Studio</h4>
             <ul className="footer-links">
-              <li><button onClick={() => handleNav(PAGES.PHOTOBOOTH)}>Start Session</button></li>
-              <li><button onClick={() => handleNav(PAGES.GALLERY)}>Browse Frames</button></li>
+              <li><button onClick={() => handleNav(PAGES.PHOTOBOOTH)}>Start Photobooth</button></li>
+              <li><button onClick={() => handleNav(PAGES.GALLERY)}>Explore Frames</button></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>© {currentYear} MatchaBox. All lovely rights reserved.</p>
+          <p>© {currentYear} ALEASNAP. All rights reserved.</p>
           <p className="footer-tagline">
-            Crafted with <Heart size={14} color="#E89898" fill="#E89898" /> for your cute memories
+            A Moment Worth Keeping
           </p>
         </div>
       </div>

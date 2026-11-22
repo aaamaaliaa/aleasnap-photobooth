@@ -11,7 +11,8 @@
 .how-title {
   font-size: clamp(2rem, 4vw, 3rem);
   margin-bottom: 0.8rem;
-  color: var(--text-main);
+  font-family: var(--font-serif);
+  color: var(--burgundy-deep);
 }
 
 .how-lead {
@@ -29,11 +30,11 @@
 }
 
 .step-card {
-  background: white;
+  background: var(--soft-ivory);
   border-radius: var(--radius-xl);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   padding: 2.5rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px rgba(74, 23, 39, 0.04);
   display: grid;
   grid-template-columns: 80px 1.2fr 1fr;
   align-items: center;
@@ -42,8 +43,8 @@
 }
 
 .step-card:hover {
-  border-color: var(--matcha-light);
-  box-shadow: var(--shadow-md);
+  border-color: var(--burgundy-wine);
+  box-shadow: 0 10px 24px rgba(74, 23, 39, 0.08);
   transform: translateY(-3px);
 }
 
@@ -51,14 +52,15 @@
   width: 72px;
   height: 72px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--matcha-soft) 0%, var(--matcha-light) 100%);
+  background: var(--dusty-rose-light);
+  border: 1px solid var(--dusty-rose);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--matcha-dark);
+  color: var(--burgundy-deep);
   box-shadow: var(--shadow-sm);
 }
 
@@ -71,14 +73,15 @@
 .step-tag {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--matcha-primary);
+  color: var(--burgundy-wine);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .step-name {
   font-size: 1.45rem;
-  color: var(--text-main);
+  font-family: var(--font-serif);
+  color: var(--burgundy-deep);
 }
 
 .step-desc {
@@ -89,8 +92,8 @@
 
 /* Step Visual Preview */
 .step-preview-box {
-  background: var(--matcha-bg);
-  border: 1.5px dashed var(--border-hover);
+  background: var(--warm-cream);
+  border: 1px dashed var(--dusty-rose);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   display: flex;
@@ -101,8 +104,8 @@
 
 /* Tips Section */
 .tips-container {
-  background: var(--cream);
-  border: 2px solid var(--border-light);
+  background: var(--soft-ivory);
+  border: 1px solid var(--dusty-rose);
   border-radius: var(--radius-xl);
   padding: 2.5rem;
   margin-bottom: 4rem;
@@ -120,22 +123,24 @@
 }
 
 .tip-card {
-  background: white;
+  background: var(--warm-cream);
   padding: 1.5rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   box-shadow: var(--shadow-sm);
 }
 
 .tip-icon {
-  font-size: 1.8rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
 }
 
 .tip-title {
   font-size: 1.05rem;
+  font-family: var(--font-serif);
   font-weight: 600;
-  color: var(--matcha-dark);
+  color: var(--burgundy-deep);
   margin-bottom: 0.35rem;
 }
 

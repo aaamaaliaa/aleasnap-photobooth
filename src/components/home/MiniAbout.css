@@ -3,11 +3,11 @@
 }
 
 .mini-about-card {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAF4 100%);
+  background: var(--soft-ivory);
   border-radius: var(--radius-xl);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   padding: 3rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 10px 30px rgba(74, 23, 39, 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -25,8 +25,27 @@
   gap: 1.25rem;
 }
 
+.badge-cute {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--dusty-rose);
+  width: fit-content;
+}
+
 .mini-about-title {
   font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-family: var(--font-serif);
+  color: var(--burgundy-deep);
   line-height: 1.25;
 }
 
@@ -53,17 +72,18 @@
   width: 38px;
   height: 38px;
   border-radius: var(--radius-sm);
-  background-color: var(--matcha-soft);
+  background-color: var(--dusty-rose-light);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid var(--dusty-rose);
 }
 
 .highlight-title {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--burgundy-deep);
   margin-bottom: 0.15rem;
 }
 
@@ -101,7 +121,7 @@
   position: absolute;
   width: 240px;
   height: 240px;
-  background-color: var(--matcha-soft);
+  background-color: var(--dusty-rose-light);
   border-radius: 50%;
   z-index: 1;
 }
@@ -110,9 +130,9 @@
   position: absolute;
   background: white;
   padding: 10px 10px 18px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(118, 152, 100, 0.18);
-  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(74, 23, 39, 0.12);
+  border: 1px solid var(--dusty-rose);
   z-index: 2;
   transition: transform 0.3s ease;
 }
@@ -124,20 +144,21 @@
 .polaroid-inner {
   width: 140px;
   height: 120px;
-  background: #F2F6ED;
-  border-radius: 8px;
+  background: var(--warm-cream);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .polaroid-caption {
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--burgundy-deep);
   text-align: center;
   margin-top: 8px;
+  letter-spacing: 0.05em;
 }
 
 .polaroid-1 {

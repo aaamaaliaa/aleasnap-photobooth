@@ -32,7 +32,7 @@ export default function Navbar({ activePage, setActivePage }) {
           <div className="navbar-logo-icon">
             <Camera size={20} />
           </div>
-          <span>Matcha<span style={{ color: 'var(--matcha-primary)' }}>Box</span></span>
+          <span>ALEASNAP</span>
         </div>
 
         {/* Navigation Links */}

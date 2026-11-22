@@ -1,5 +1,5 @@
 import React from 'react';
-import { Camera, Sparkles, Heart, Smartphone, ShieldCheck, Palette, ArrowRight } from 'lucide-react';
+import { Camera, Sparkles, Smartphone, ShieldCheck, Palette, Heart } from 'lucide-react';
 import './HeroSection.css';
 
 export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
@@ -15,22 +15,22 @@ export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
         {/* Left Side: Headline & Copy */}
         <div className="hero-content">
           <div className="hero-badge">
-            <Sparkles size={16} color="var(--matcha-primary)" />
-            <span>Cute Korean Photobooth Studio</span>
+            <Sparkles size={15} color="var(--burgundy-deep)" />
+            <span>Studio Photobooth Online</span>
           </div>
 
           <h1 className="hero-title">
-            Capture Your <br />
-            <span className="hero-title-highlight">Little Moments.</span>
+            A Moment <br />
+            <span className="hero-title-highlight">Worth Keeping.</span>
           </h1>
 
           <p className="hero-description">
-            Turn your little moments into lovely memories. Take photos, explore cute frames, and create your own photo strips with just a few clicks.
+            Capture your cherished memories in an elegant digital photobooth. Curated aesthetic frames, studio-grade filters, and seamless instant mobile downloads.
           </p>
 
           <div className="hero-actions">
             <button className="btn btn-primary" onClick={onStartPhotobooth} style={{ fontSize: '1.05rem', padding: '0.85rem 1.8rem' }}>
-              <Camera size={20} />
+              <Camera size={19} />
               Start Photobooth
             </button>
 
@@ -42,58 +42,58 @@ export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
 
           <div className="hero-features-list">
             <div className="hero-feature-item">
-              <Camera size={16} color="var(--matcha-primary)" />
+              <Camera size={16} color="var(--burgundy-deep)" />
               <span>Webcam & Smartphone</span>
             </div>
             <div className="hero-feature-item">
-              <Palette size={16} color="var(--matcha-primary)" />
-              <span>Aesthetic Frames</span>
+              <Palette size={16} color="var(--burgundy-deep)" />
+              <span>Curated Aesthetic Frames</span>
             </div>
             <div className="hero-feature-item">
-              <Smartphone size={16} color="var(--matcha-primary)" />
+              <Smartphone size={16} color="var(--burgundy-deep)" />
               <span>QR Code Download</span>
             </div>
             <div className="hero-feature-item">
-              <ShieldCheck size={16} color="var(--matcha-primary)" />
+              <ShieldCheck size={16} color="var(--burgundy-deep)" />
               <span>No App Required</span>
             </div>
           </div>
         </div>
 
-        {/* Right Side: Korean Photo Strip Mockup */}
+        {/* Right Side: Elegant Photo Strip Mockup */}
         <div className="hero-visual">
           <div className="photostrip-wrapper">
-            {/* Cute Floating Sticker Badges */}
+            {/* Elegant Floating Badges */}
             <div className="floating-badge badge-top-right">
-              <span>🍵 Matcha Signature</span>
+              <Sparkles size={14} color="var(--burgundy-deep)" />
+              <span>Editorial Series</span>
             </div>
             <div className="floating-badge badge-bottom-left">
-              <Heart size={16} color="#E89898" fill="#E89898" />
-              <span>100% Free & Cute</span>
+              <Heart size={14} color="var(--burgundy-wine)" />
+              <span>Studio Quality</span>
             </div>
 
             {/* The Photo Strip Card */}
             <div className="photostrip-card">
               <div className="photostrip-header">
                 <div className="photostrip-brand">
-                  <span>Matcha<span style={{ color: 'var(--matcha-primary)' }}>Box</span></span>
-                  <span>🍵</span>
+                  <span>ALEASNAP</span>
                 </div>
-                <div className="photostrip-date">{todayFormatted} • SEOUL MEMORIES</div>
+                <div className="photostrip-date">{todayFormatted} • STUDIO ARCHIVE</div>
               </div>
 
-              {/* 3 Photo Slots with cute sample moments */}
+              {/* 3 Photo Slots with elegant editorial styling */}
               <div className="photostrip-frames">
                 <div className="photostrip-slot">
                   <div 
                     className="photostrip-photo-content"
                     style={{
-                      background: 'linear-gradient(135deg, #FFE5EC 0%, #FFC2D1 100%)',
-                      color: '#9E2A2B'
+                      background: 'linear-gradient(135deg, #F3EAE8 0%, #EAD9D5 100%)',
+                      color: 'var(--burgundy-deep)'
                     }}
                   >
-                    <span style={{ fontSize: '2.4rem' }}>✌️😊</span>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '2px', opacity: 0.85 }}>pose 01 • V-sign</span>
+                    <Camera size={26} strokeWidth={1.5} />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '6px', letterSpacing: '0.05em' }}>PORTRAIT 01 • STUDIO</span>
                   </div>
                 </div>
 
@@ -101,12 +101,12 @@ export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
                   <div 
                     className="photostrip-photo-content"
                     style={{
-                      background: 'linear-gradient(135deg, #E8F0FE 0%, #C2D7FE 100%)',
-                      color: '#1A4D8F'
+                      background: 'linear-gradient(135deg, #EFE8E5 0%, #DFCECB 100%)',
+                      color: 'var(--burgundy-wine)'
                     }}
                   >
-                    <span style={{ fontSize: '2.4rem' }}>🫶✨</span>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '2px', opacity: 0.85 }}>pose 02 • heart cheek</span>
+                    <Sparkles size={24} strokeWidth={1.5} />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '6px', letterSpacing: '0.05em' }}>PORTRAIT 02 • CANDID</span>
                   </div>
                 </div>
 
@@ -114,12 +114,12 @@ export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
                   <div 
                     className="photostrip-photo-content"
                     style={{
-                      background: 'linear-gradient(135deg, #FFF3BF 0%, #FFE066 100%)',
-                      color: '#7A5B00'
+                      background: 'linear-gradient(135deg, #F8F3EF 0%, #E5D5D1 100%)',
+                      color: 'var(--burgundy-deep)'
                     }}
                   >
-                    <span style={{ fontSize: '2.4rem' }}>🧸🌸</span>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '2px', opacity: 0.85 }}>pose 03 • smile bright</span>
+                    <Palette size={24} strokeWidth={1.5} />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: '6px', letterSpacing: '0.05em' }}>PORTRAIT 03 • MEMORY</span>
                   </div>
                 </div>
               </div>
@@ -139,7 +139,7 @@ export default function HeroSection({ onStartPhotobooth, onExploreFrames }) {
                   <span className="barcode-bar" style={{ width: '2px' }}></span>
                 </div>
                 <div className="photostrip-stamp">
-                  APPROVED ♡
+                  ALEASNAP
                 </div>
               </div>
             </div>

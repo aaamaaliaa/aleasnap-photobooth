@@ -4,7 +4,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import './FeaturedFrames.css';
 
 export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
-  // Take top 4 popular frames (Cherry Coquette, Airmail Polaroid, Matcha Signature, Sakura Petals)
+  // Take top 4 popular frames
   const featured = FRAMES_LIST.filter(f => f.isPopular).slice(0, 4);
 
   return (
@@ -16,7 +16,7 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
         </div>
         <h2 className="section-title">Featured Aesthetic Frames</h2>
         <p className="section-subtitle">
-          Pilihan frame favorit: Cherry Coquette Chibi, Retro Airmail Polaroid, Matcha Signature, dan Sakura Blossom.
+          Koleksi frame estetis pilihan: ALEASNAP Signature Burgundy, Cherry Coquette Chibi, Retro Airmail Polaroid, dan Warm Ivory Editorial.
         </p>
       </div>
 
@@ -37,9 +37,9 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
               ) : (
                 <div 
                   className="frame-mini-strip"
-                  style={{ border: `2px solid ${frame.borderColor}` }}
+                  style={{ border: `2px solid ${frame.borderColor}`, background: frame.bgStyle }}
                 >
-                  <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor }}>
+                  <div style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: frame.textColor, letterSpacing: '0.05em' }}>
                     {frame.title}
                   </div>
                   {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
@@ -61,7 +61,6 @@ export default function FeaturedFrames({ onSelectFrame, onViewAllFrames }) {
 
               <div className="frame-card-title">
                 <span>{frame.title}</span>
-                <span>{frame.stickerSample}</span>
               </div>
 
               <p className="frame-card-desc">{frame.description}</p>

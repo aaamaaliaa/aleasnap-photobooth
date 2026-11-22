@@ -242,22 +242,22 @@ export default function PhotoboothPage({
         {/* Active Frame Indicator with modal trigger */}
         <div className="photobooth-active-frame-pill">
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Frame:</span>
-          <span style={{ fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            {selectedFrame?.title || 'Matcha Signature'} {selectedFrame?.stickerSample || '🍵'}
+          <span style={{ fontWeight: 700, color: 'var(--burgundy-deep)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            {selectedFrame?.title || 'ALEASNAP Signature'}
           </span>
           <button
             onClick={() => setIsFrameModalOpen(true)}
             style={{
               background: 'none',
               border: 'none',
-              color: 'var(--matcha-primary)',
+              color: 'var(--burgundy-deep)',
               fontSize: '0.85rem',
               fontWeight: 600,
               cursor: 'pointer',
               textDecoration: 'underline'
             }}
           >
-            Change
+            Ganti
           </button>
         </div>
 
@@ -272,7 +272,7 @@ export default function PhotoboothPage({
               className={`cat-tab-btn ${currentLayout.id === layout.id ? 'active' : ''}`}
               style={{ padding: '0.35rem 0.8rem', fontSize: '0.85rem' }}
             >
-              {layout.icon} {layout.name}
+              {layout.name}
             </button>
           ))}
         </div>

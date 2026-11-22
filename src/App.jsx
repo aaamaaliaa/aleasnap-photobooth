@@ -14,7 +14,7 @@ import './styles/global.css';
 
 export default function App() {
   const [activePage, setActivePage] = useState(PAGES.HOME);
-  const [selectedFrame, setSelectedFrame] = useState(FRAMES_LIST[0]); // default to Matcha Signature
+  const [selectedFrame, setSelectedFrame] = useState(FRAMES_LIST[0]); // default to ALEASNAP Signature Burgundy
   const [sessionData, setSessionData] = useState(null);
   const [mobilePhotoUrl, setMobilePhotoUrl] = useState(null);
 

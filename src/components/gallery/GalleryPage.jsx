@@ -29,12 +29,12 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
       {/* Header */}
       <div className="gallery-header">
         <div className="badge-cute" style={{ marginBottom: '0.8rem' }}>
-          <Palette size={14} color="var(--matcha-primary)" />
-          <span>Aesthetic Frame Wardrobe</span>
+          <Palette size={14} color="var(--burgundy-deep)" />
+          <span>Curated Frame Wardrobe</span>
         </div>
         <h1 className="gallery-title">Choose Your Vibe</h1>
         <p className="gallery-lead">
-          Jelajahi koleksi frame photobooth Korea eksklusif. Tersedia edisi spesial Cherry Coquette, Retro Airmail Polaroid, Matcha Signature, dan beragam tema estetik lainnya.
+          Jelajahi koleksi frame studio ALEASNAP. Tersedia edisi ALEASNAP Signature Burgundy, Cherry Coquette Chibi, Retro Airmail Polaroid, Warm Ivory Editorial, dan beragam tema elegan lainnya.
         </p>
       </div>
 
@@ -75,8 +75,10 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
       {/* Frames Grid */}
       {filteredFrames.length === 0 ? (
         <div className="empty-gallery">
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔍</div>
-          <h3 style={{ marginBottom: '0.5rem' }}>Frame tidak ditemukan</h3>
+          <div style={{ marginBottom: '0.8rem', display: 'flex', justifyContent: 'center' }}>
+            <Search size={36} color="var(--burgundy-deep)" />
+          </div>
+          <h3 style={{ marginBottom: '0.5rem', fontFamily: 'var(--font-serif)', color: 'var(--burgundy-deep)' }}>Frame Tidak Ditemukan</h3>
           <p>Coba gunakan kata kunci pencarian lain atau pilih kategori lain.</p>
         </div>
       ) : (
@@ -103,9 +105,9 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
                   ) : (
                     <div 
                       className="gallery-photo-strip"
-                      style={{ border: `2px solid ${frame.borderColor}` }}
+                      style={{ border: `2px solid ${frame.borderColor}`, background: frame.bgStyle }}
                     >
-                      <div style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 700, color: frame.textColor }}>
+                      <div style={{ textAlign: 'center', fontSize: '0.7rem', fontWeight: 700, color: frame.textColor, letterSpacing: '0.05em' }}>
                         {frame.title}
                       </div>
                       {Array.from({ length: Math.min(frame.slots, 3) }).map((_, idx) => (
@@ -127,13 +129,12 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
 
                   <div className="gallery-card-title">
                     <span>{frame.title}</span>
-                    <span>{frame.stickerSample}</span>
                   </div>
 
                   <p className="gallery-card-desc">{frame.description}</p>
 
                   <div className="gallery-card-footer">
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-light)', fontWeight: 500 }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                       {frame.slots} Foto
                     </span>
 
@@ -142,12 +143,17 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
                       onClick={() => onSelectFrame(frame)}
                       style={{
                         padding: '0.45rem 1rem',
-                        fontSize: '0.875rem',
-                        backgroundColor: isCurrent ? 'var(--matcha-primary)' : 'var(--matcha-soft)',
-                        color: isCurrent ? 'white' : 'var(--matcha-dark)',
+                        fontSize: '0.85rem',
+                        backgroundColor: isCurrent ? 'var(--burgundy-deep)' : 'var(--dusty-rose-light)',
+                        color: isCurrent ? 'var(--soft-ivory)' : 'var(--burgundy-deep)',
+                        border: isCurrent ? '1px solid var(--burgundy-deep)' : '1px solid var(--dusty-rose)',
                         fontWeight: 600,
-                        border: 'none',
-                        borderRadius: 'var(--radius-full)'
+                        borderRadius: 'var(--radius-full)',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        transition: 'all 0.2s ease'
                       }}
                     >
                       {isCurrent ? (
@@ -174,19 +180,18 @@ export default function GalleryPage({ selectedFrame, onSelectFrame, onStartPhoto
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 90,
-          background: 'rgba(255, 255, 255, 0.95)',
+          background: 'rgba(255, 253, 251, 0.95)',
           backdropFilter: 'blur(10px)',
-          border: '2px solid var(--matcha-primary)',
+          border: '1px solid var(--dusty-rose)',
           borderRadius: 'var(--radius-full)',
           padding: '0.6rem 1.4rem',
-          boxShadow: 'var(--shadow-lg)',
+          boxShadow: '0 10px 30px rgba(74, 23, 39, 0.15)',
           display: 'flex',
           alignItems: 'center',
           gap: '1.2rem'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--burgundy-deep)' }}>
             <span>Frame Aktif: <strong>{selectedFrame.title}</strong></span>
-            <span>{selectedFrame.stickerSample}</span>
           </div>
 
           <button 

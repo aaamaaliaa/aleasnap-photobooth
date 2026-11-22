@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Share2, Sparkles, Camera, Heart, Check } from 'lucide-react';
+import { Download, Share2, Sparkles, Camera, Check } from 'lucide-react';
 import './PhotoDownloadPage.css';
 
 export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
@@ -14,7 +14,7 @@ export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
 
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = `MatchaBox_${Date.now()}.png`;
+      link.download = `ALEASNAP_${Date.now()}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -32,8 +32,8 @@ export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Photo Strip MatchaBox 🍵',
-          text: 'Lihat hasil photo strip kenangan kita dari MatchaBox!',
+          title: 'Photo Strip ALEASNAP',
+          text: 'Lihat hasil photo strip kenangan kita dari ALEASNAP — A Moment Worth Keeping!',
           url: photoUrl
         });
       } catch (err) {
@@ -51,12 +51,12 @@ export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
         {/* Header */}
         <div className="download-header">
           <div className="badge-cute">
-            <Heart size={14} color="#E89898" fill="#E89898" />
-            <span>Memori Kamu Siap Diunduh</span>
+            <Camera size={14} color="var(--burgundy-deep)" />
+            <span>A Moment Worth Keeping</span>
           </div>
-          <h1 className="download-title">MatchaBox Photo Strip 🍵</h1>
+          <h1 className="download-title">ALEASNAP Photo Strip</h1>
           <p className="download-desc">
-            Hasil foto photobooth studio beresolusi tinggi berhasil dibuka di smartphone kamu.
+            Hasil foto photobooth studio beresolusi tinggi siap disimpan ke smartphone Anda.
           </p>
         </div>
 
@@ -64,14 +64,14 @@ export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
         <div className="download-photo-wrapper">
           <img 
             src={photoUrl} 
-            alt="Your Photobooth Strip" 
+            alt="Your ALEASNAP Photobooth Strip" 
             className="download-photo-img" 
           />
         </div>
 
         {/* Tip for mobile users */}
         <div className="mobile-save-tip">
-          💡 <strong>Tip Pengguna HP (iPhone & Android):</strong> Jika tombol download otomatis tidak merespons pada browser bawaan, kamu bisa <strong>tekan & tahan (hold) gambar di atas</strong> lalu pilih <em>"Simpan ke Foto"</em> atau <em>"Download Gambar"</em>.
+          <strong>Tip Pengguna Smartphone (iOS & Android):</strong> Jika tombol download otomatis tidak merespons pada browser bawaan, Anda dapat <strong>tekan & tahan (hold) gambar di atas</strong> lalu pilih <em>"Simpan ke Foto"</em> atau <em>"Download Gambar"</em>.
         </div>
 
         {/* Action Buttons */}
@@ -92,25 +92,27 @@ export default function PhotoDownloadPage({ photoUrl, onNavigateHome }) {
 
           <button className="btn-mobile-share" onClick={handleShare}>
             <Share2 size={16} />
-            <span>Bagikan ke Teman / Salin Link</span>
+            <span>Bagikan ke Teman / Salin Tautan</span>
           </button>
 
           <button
             onClick={onNavigateHome}
             style={{
               marginTop: '0.5rem',
-              color: 'var(--matcha-dark)',
+              color: 'var(--burgundy-deep)',
               fontSize: '0.9rem',
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.4rem',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: 'none',
+              border: 'none'
             }}
           >
             <Camera size={16} />
-            Ambil Foto Baru di MatchaBox
+            Ambil Foto Baru di ALEASNAP
           </button>
         </div>
       </div>

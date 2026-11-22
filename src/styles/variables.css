@@ -1,56 +1,67 @@
 :root {
-  /* Matcha Green Palette */
-  --matcha-primary: #769864;
-  --matcha-primary-hover: #658455;
-  --matcha-dark: #445936;
-  --matcha-light: #C2D7B4;
-  --matcha-soft: #E9F2E2;
-  --matcha-bg: #F6F9F3;
-  --matcha-tint: #F0F6EC;
+  /* Official ALEASNAP Elegant Burgundy Palette */
+  --burgundy-deep: #4A1727;
+  --burgundy-wine: #702D42;
+  --burgundy-dark: #320E1A;
+  --burgundy-muted: #5C2033;
+  --dusty-rose: #EAD9D5;
+  --dusty-rose-light: #F4ECE9;
+  --dusty-rose-border: #E0CFCB;
+  --warm-cream: #F8F3EF;
+  --soft-ivory: #FFFDFB;
+  --ivory-alt: #F4EFEB;
 
-  /* Secondary & Neutral Palette */
-  --sage-green: #97AB8A;
-  --soft-olive: #66764B;
-  --cream: #FFFDF9;
-  --cream-card: #FFFFFF;
-  --cream-alt: #FAF7F0;
+  /* Theme Mapping */
+  --matcha-primary: #4A1727;
+  --matcha-primary-hover: #702D42;
+  --matcha-dark: #320E1A;
+  --matcha-light: #EAD9D5;
+  --matcha-soft: #F4ECE9;
+  --matcha-bg: #F8F3EF;
+  --matcha-tint: #F2EAE6;
 
-  /* Accent Colors (Korean Cute Theme) */
-  --accent-pink: #F8B4B4;
-  --accent-peach: #FCD5CE;
-  --accent-butter: #FDE8A5;
-  --accent-lavender: #D8D4F2;
+  --sage-green: #702D42;
+  --soft-olive: #4A1727;
+  --cream: #F8F3EF;
+  --cream-card: #FFFDFB;
+  --cream-alt: #F4EFEB;
 
-  /* Text Colors */
-  --text-main: #273322;
-  --text-muted: #64755C;
-  --text-light: #8E9F86;
+  /* Accent Tones */
+  --accent-gold: #C5A059;
+  --accent-blush: #EAD9D5;
+
+  /* Typography Text Colors */
+  --text-main: #240B13;
+  --text-muted: #644F55;
+  --text-light: #947E84;
   --text-white: #FFFFFF;
 
   /* Borders & Shadows */
-  --border-light: #E2EBD9;
-  --border-hover: #C6D8BC;
-  --border-focus: #769864;
+  --border-light: #EAD9D5;
+  --border-hover: #D4BFBA;
+  --border-focus: #702D42;
 
-  --shadow-sm: 0 2px 8px rgba(118, 152, 100, 0.08);
-  --shadow-md: 0 8px 24px rgba(118, 152, 100, 0.12);
-  --shadow-lg: 0 16px 40px rgba(118, 152, 100, 0.16);
-  --shadow-cute: 0 8px 0px #CBDBC1;
+  --shadow-sm: 0 2px 10px rgba(74, 23, 39, 0.05);
+  --shadow-md: 0 8px 24px rgba(74, 23, 39, 0.08);
+  --shadow-lg: 0 16px 40px rgba(74, 23, 39, 0.12);
+  --shadow-cute: 0 4px 16px rgba(74, 23, 39, 0.08);
 
-  /* Radius */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  /* Radius (Refined, modern, not childish) */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Fonts */
-  --font-display: 'Fredoka', 'Pretendard', sans-serif;
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-serif);
+  --font-body: var(--font-sans);
 
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
-  --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-bounce: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }

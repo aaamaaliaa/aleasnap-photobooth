@@ -12,21 +12,24 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background-color: var(--matcha-soft);
-  color: var(--matcha-dark);
-  font-family: var(--font-display);
-  font-size: 0.85rem;
+  background-color: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-full);
   margin-bottom: 0.8rem;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
 }
 
 .section-title {
   font-size: clamp(1.8rem, 3.5vw, 2.5rem);
   margin-bottom: 0.8rem;
-  color: var(--text-main);
+  font-family: var(--font-serif);
+  color: var(--burgundy-deep);
 }
 
 .section-subtitle {
@@ -43,11 +46,11 @@
 }
 
 .frame-card {
-  background-color: var(--cream-card);
+  background-color: var(--soft-ivory);
   border-radius: var(--radius-lg);
-  border: 2px solid var(--border-light);
+  border: 1px solid var(--dusty-rose);
   padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px rgba(74, 23, 39, 0.04);
   transition: all var(--transition-bounce);
   display: flex;
   flex-direction: column;
@@ -57,8 +60,8 @@
 
 .frame-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--matcha-light);
+  box-shadow: 0 12px 28px rgba(74, 23, 39, 0.12);
+  border-color: var(--burgundy-wine);
 }
 
 .frame-card-preview {
@@ -76,7 +79,7 @@
 .frame-mini-strip {
   width: 90px;
   background: white;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 8px 6px 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   display: flex;
@@ -88,7 +91,7 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   background: #EAE6DF;
-  border-radius: 4px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,14 +116,16 @@
   font-weight: 600;
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
-  background-color: var(--matcha-soft);
-  color: var(--matcha-dark);
+  background-color: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
+  border: 1px solid var(--dusty-rose);
 }
 
 .frame-card-title {
   font-size: 1.15rem;
+  font-family: var(--font-serif);
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--burgundy-deep);
   margin-bottom: 0.4rem;
   display: flex;
   align-items: center;
@@ -140,28 +145,31 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--dusty-rose);
 }
 
 .frame-slots-badge {
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .btn-select-frame {
   padding: 0.45rem 1rem;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
   border-radius: var(--radius-full);
-  background-color: var(--matcha-soft);
-  color: var(--matcha-dark);
+  background-color: var(--dusty-rose-light);
+  color: var(--burgundy-deep);
+  border: 1px solid var(--dusty-rose);
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .btn-select-frame:hover {
-  background-color: var(--matcha-primary);
-  color: white;
+  background-color: var(--burgundy-deep);
+  color: var(--soft-ivory);
+  border-color: var(--burgundy-deep);
 }
 
 .section-footer-cta {

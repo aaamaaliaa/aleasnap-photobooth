@@ -1,7 +1,7 @@
 .footer {
-  background-color: var(--cream);
-  border-top: 2px solid var(--border-light);
-  padding: 3rem 0 1.5rem;
+  background-color: var(--warm-cream);
+  border-top: 1px solid var(--dusty-rose);
+  padding: 3.5rem 0 2rem;
   margin-top: 4rem;
 }
 
@@ -20,10 +20,11 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
   font-weight: 700;
-  color: var(--matcha-dark);
+  letter-spacing: 0.08em;
+  color: var(--burgundy-deep);
   margin-bottom: 0.75rem;
 }
 
@@ -34,9 +35,11 @@
 }
 
 .footer-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--burgundy-deep);
   margin-bottom: 1rem;
 }
 
@@ -55,7 +58,7 @@
 }
 
 .footer-links button:hover {
-  color: var(--matcha-primary);
+  color: var(--burgundy-deep);
 }
 
 .footer-bottom {

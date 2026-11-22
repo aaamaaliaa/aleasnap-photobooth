@@ -5,9 +5,9 @@ export const PHOTO_LAYOUTS = [
     slots: 4,
     type: 'vertical',
     aspectRatio: '1 / 3.4',
-    icon: '📸',
-    badge: 'Most Popular',
-    description: 'Iconic Korean 4-Cut vertical photo strip'
+    icon: '',
+    badge: 'Popular',
+    description: 'Classic 4-Cut vertical photo strip'
   },
   {
     id: 'strip-3',
@@ -15,8 +15,8 @@ export const PHOTO_LAYOUTS = [
     slots: 3,
     type: 'vertical',
     aspectRatio: '1 / 2.6',
-    icon: '✨',
-    badge: 'Aesthetic',
+    icon: '',
+    badge: 'Editorial',
     description: 'Balanced 3-pose vertical strip'
   },
   {
@@ -25,18 +25,18 @@ export const PHOTO_LAYOUTS = [
     slots: 2,
     type: 'vertical',
     aspectRatio: '1 / 1.8',
-    icon: '✌️',
-    badge: 'Quick & Cute',
+    icon: '',
+    badge: 'Minimal',
     description: 'Minimal duo portraits'
   },
   {
     id: 'grid-2x2',
-    name: '2x2 Collage',
+    name: '2x2 Grid',
     slots: 4,
     type: 'grid',
     aspectRatio: '1 / 1.3',
-    icon: '🍱',
-    badge: 'Polaroid Style',
-    description: '2x2 square collage layout'
+    icon: '',
+    badge: 'Collage',
+    description: '2x2 square grid layout'
   }
 ];

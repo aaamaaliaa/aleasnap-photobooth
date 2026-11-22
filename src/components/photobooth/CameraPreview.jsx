@@ -41,10 +41,10 @@ export default function CameraPreview({
         {countdown !== null && (
           <div className="countdown-overlay">
             <div className="countdown-number">
-              {countdown === 0 ? '📸' : countdown}
+              {countdown === 0 ? <Camera size={80} color="#FFF" /> : countdown}
             </div>
             <div className="countdown-pose-cue">
-              {countdown === 0 ? 'CHEESE! ✨' : `Pose #${currentSlotIndex + 1} of ${totalSlots}`}
+              {countdown === 0 ? 'SMILE' : `Pose #${currentSlotIndex + 1} of ${totalSlots}`}
             </div>
           </div>
         )}
@@ -73,7 +73,7 @@ export default function CameraPreview({
               <button 
                 className="btn btn-secondary"
                 onClick={onUploadPhotos}
-                style={{ fontSize: '0.9rem', backgroundColor: 'white', color: 'var(--matcha-dark)' }}
+                style={{ fontSize: '0.9rem', backgroundColor: 'white', color: 'var(--burgundy-deep)' }}
               >
                 <Upload size={16} />
                 Upload Foto Saja

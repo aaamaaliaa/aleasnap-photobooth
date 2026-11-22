@@ -81,9 +81,9 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
       <div className="qr-modal-card" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="qr-modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--matcha-dark)' }}>
-            <QrCode size={20} color="var(--matcha-primary)" />
-            <span>Scan QR untuk Download di HP</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>
+            <QrCode size={20} color="var(--burgundy-deep)" />
+            <span>Pindai QR untuk Download di Smartphone</span>
           </div>
           <button className="frame-modal-close-btn" onClick={onClose} aria-label="Close">
             <X size={18} />
@@ -96,7 +96,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
           {status === 'uploading' && (
             <div className="qr-loading-box">
               <div className="qr-spinner"></div>
-              <h4 style={{ color: 'var(--matcha-dark)' }}>Menyimpan Foto ke Cloudinary...</h4>
+              <h4 style={{ color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>Menyimpan Foto ke Cloudinary...</h4>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                 Sedang memproses photo strip beresolusi tinggi dan menyiapkan QR Code instan.
               </p>
@@ -112,17 +112,17 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                   size={200}
                   level="M"
                   includeMargin={true}
-                  fgColor="#273322"
+                  fgColor="#4A1727"
                   bgColor="#FFFFFF"
                 />
               </div>
 
               <div className="qr-instructions">
-                <p style={{ fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.3rem' }}>
-                  📱 Buka Kamera HP & Arahkan ke QR Code
+                <p style={{ fontWeight: 600, color: 'var(--burgundy-deep)', marginBottom: '0.3rem' }}>
+                  Buka Kamera HP & Arahkan ke QR Code
                 </p>
                 <p>
-                  Smartphone Anda akan diarahkan ke halaman unduh khusus untuk menyimpan photo strip langsung ke Galeri Foto HP.
+                  Smartphone Anda akan diarahkan ke halaman unduh khusus untuk menyimpan photo strip langsung ke Galeri Foto ponsel.
                 </p>
               </div>
 
@@ -132,7 +132,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                   <span className="qr-link-text">{downloadTargetUrl}</span>
                   <button 
                     onClick={handleCopy} 
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--matcha-dark)', display: 'flex' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--burgundy-deep)', display: 'flex' }}
                     title="Salin tautan"
                   >
                     {copied ? <Check size={16} color="green" /> : <Copy size={16} />}
@@ -152,7 +152,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
               </div>
 
               <div style={{ fontSize: '0.75rem', color: 'var(--text-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <ShieldCheck size={14} color="var(--matcha-primary)" />
+                <ShieldCheck size={14} color="var(--burgundy-deep)" />
                 Cloudinary Storage Aman • Tanpa API Secret di Frontend
               </div>
             </>
@@ -161,9 +161,9 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
           {/* 3. Not Configured State */}
           {status === 'not_configured' && (
             <div style={{ width: '100%', textAlign: 'left' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#B36B00', marginBottom: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--burgundy-wine)', marginBottom: '0.75rem' }}>
                 <Settings size={20} />
-                <h4 style={{ margin: 0 }}>Pengaturan Cloudinary Diperlukan</h4>
+                <h4 style={{ margin: 0, fontFamily: 'var(--font-serif)' }}>Pengaturan Cloudinary Diperlukan</h4>
               </div>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: '1.5' }}>
                 Untuk mengunggah foto lintas perangkat secara gratis tanpa server backend, masukkan <strong>Cloud Name</strong> dan <strong>Unsigned Upload Preset</strong> Cloudinary Anda (atau atur di file <code>.env</code>).
@@ -171,7 +171,7 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
 
               <form onSubmit={handleSaveConfigAndRetry} className="qr-config-form">
                 <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 600, display: 'block', marginBottom: '0.25rem', color: 'var(--burgundy-deep)' }}>
                     Cloud Name (cth: mycloud)
                   </label>
                   <input
@@ -185,8 +185,8 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 600, display: 'block', marginBottom: '0.25rem' }}>
-                    Upload Preset (Unsigned, cth: matchabox_preset)
+                  <label style={{ fontSize: '0.8rem', fontWeight: 600, display: 'block', marginBottom: '0.25rem', color: 'var(--burgundy-deep)' }}>
+                    Upload Preset (Unsigned, cth: aleasnap_preset)
                   </label>
                   <input
                     type="text"
@@ -212,8 +212,8 @@ export default function QrModal({ isOpen, onClose, renderedImageUrl }) {
           {/* 4. Error State */}
           {status === 'error' && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-              <AlertCircle size={40} color="#E88B9E" />
-              <h4 style={{ color: '#9E2A2B' }}>Gagal Mengunggah ke Cloudinary</h4>
+              <AlertCircle size={40} color="var(--burgundy-wine)" />
+              <h4 style={{ color: 'var(--burgundy-deep)', fontFamily: 'var(--font-serif)' }}>Gagal Mengunggah ke Cloudinary</h4>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', maxWidth: '360px' }}>
                 {errorMessage}
               </p>

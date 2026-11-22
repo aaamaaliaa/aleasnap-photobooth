@@ -81,7 +81,7 @@ export async function renderPhotoStripCanvas({
     if (!ctx) return null;
 
     // 1. Draw solid background
-    ctx.fillStyle = frame.themeColor || '#FFFFFF';
+    ctx.fillStyle = frame.themeColor || '#4A1727';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // 2. Draw user photos behind the cutout windows
@@ -102,7 +102,7 @@ export async function renderPhotoStripCanvas({
 
     // 4. Optional custom text on bottom/top if specified
     if (customText.trim()) {
-      ctx.font = 'bold 32px "Fredoka", sans-serif';
+      ctx.font = 'bold 30px "Playfair Display", Georgia, serif';
       ctx.fillStyle = '#FFFFFF';
       ctx.textAlign = 'center';
       ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
@@ -114,7 +114,7 @@ export async function renderPhotoStripCanvas({
     return canvas.toDataURL('image/png', 0.95);
   }
 
-  // PROGRAMMATIC FRAMES (Matcha Signature, Sakura, 1998 Film, etc.)
+  // PROGRAMMATIC FRAMES (ALEASNAP Signature, Warm Ivory, Sakura, 1998 Film, etc.)
   const isGrid = layout?.type === 'grid';
   const slotsCount = layout?.slots || 4;
 
@@ -127,13 +127,19 @@ export async function renderPhotoStripCanvas({
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  const themeColor = frame?.themeColor || '#769864';
-  const borderColor = frame?.borderColor || '#769864';
-  const textColor = frame?.textColor || '#273322';
+  const themeColor = frame?.themeColor || '#4A1727';
+  const borderColor = frame?.borderColor || '#EAD9D5';
+  const textColor = frame?.textColor || '#FFFDFB';
 
   // Background Gradient
   const bgGrad = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
-  if (frame?.id === 'sakura-blossom') {
+  if (frame?.id === 'aleasnap-signature') {
+    bgGrad.addColorStop(0, '#4A1727');
+    bgGrad.addColorStop(1, '#702D42');
+  } else if (frame?.id === 'minimal-cream') {
+    bgGrad.addColorStop(0, '#FFFDFB');
+    bgGrad.addColorStop(1, '#F8F3EF');
+  } else if (frame?.id === 'sakura-blossom') {
     bgGrad.addColorStop(0, '#FFF0F3');
     bgGrad.addColorStop(1, '#FFD6DF');
   } else if (frame?.id === 'vintage-sepia-film') {
@@ -148,9 +154,12 @@ export async function renderPhotoStripCanvas({
   } else if (frame?.id === 'winter-snow-magic') {
     bgGrad.addColorStop(0, '#F0F7FF');
     bgGrad.addColorStop(1, '#D6EAFF');
+  } else if (frame?.id === 'mono-newspaper') {
+    bgGrad.addColorStop(0, '#F8F7F4');
+    bgGrad.addColorStop(1, '#EFECE6');
   } else {
-    bgGrad.addColorStop(0, '#F9FAF5');
-    bgGrad.addColorStop(1, '#EBF2E3');
+    bgGrad.addColorStop(0, '#4A1727');
+    bgGrad.addColorStop(1, '#702D42');
   }
 
   ctx.fillStyle = bgGrad;
@@ -164,7 +173,7 @@ export async function renderPhotoStripCanvas({
 
   // Subtle inner border
   ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.strokeStyle = 'rgba(234, 217, 213, 0.3)';
   drawRoundedRect(ctx, 32, 32, canvasWidth - 64, canvasHeight - 64, 20);
   ctx.stroke();
 
@@ -172,8 +181,8 @@ export async function renderPhotoStripCanvas({
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const headerTitle = customText.trim() ? customText : (frame?.decorations?.headerText || 'MATCHABOX • PHOTOBOOTH');
-  ctx.font = 'bold 32px "Fredoka", sans-serif';
+  const headerTitle = customText.trim() ? customText : (frame?.decorations?.headerText || 'ALEASNAP • STUDIO');
+  ctx.font = 'bold 34px "Playfair Display", Georgia, serif';
   ctx.fillStyle = textColor;
   ctx.fillText(headerTitle, canvasWidth / 2, 70);
 
@@ -183,9 +192,11 @@ export async function renderPhotoStripCanvas({
     year: 'numeric'
   }).toUpperCase();
 
-  ctx.font = '600 18px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-  ctx.fillText(`${todayStr} • SEOUL MEMORIES`, canvasWidth / 2, 105);
+  ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = textColor;
+  ctx.globalAlpha = 0.75;
+  ctx.fillText(`${todayStr} • A MOMENT WORTH KEEPING`, canvasWidth / 2, 105);
+  ctx.globalAlpha = 1.0;
 
   // Photo Slots
   const slotPadding = 48;
@@ -229,7 +240,7 @@ export async function renderPhotoStripCanvas({
     ctx.fillRect(barcodeX + (b * 9), footerY, barW, 36);
   }
 
-  const stampText = frame?.decorations?.footerStamp || 'MATCHABOX';
+  const stampText = frame?.decorations?.footerStamp || 'ALEASNAP';
   ctx.save();
   ctx.translate(canvasWidth - 210, footerY + 18);
   ctx.strokeStyle = borderColor;
@@ -237,8 +248,8 @@ export async function renderPhotoStripCanvas({
   drawRoundedRect(ctx, -75, -18, 160, 36, 6);
   ctx.stroke();
 
-  ctx.font = 'bold 18px "Fredoka", sans-serif';
-  ctx.fillStyle = borderColor;
+  ctx.font = 'bold 16px "Playfair Display", Georgia, serif';
+  ctx.fillStyle = textColor;
   ctx.textAlign = 'center';
   ctx.fillText(stampText, 5, 2);
   ctx.restore();
@@ -247,7 +258,7 @@ export async function renderPhotoStripCanvas({
 }
 
 // Render individual photo slot
-function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index, radius = 12) {
+function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index, radius = 10) {
   ctx.save();
   drawRoundedRect(ctx, x, y, w, h, radius);
   ctx.clip();
@@ -266,13 +277,13 @@ function renderSlot(ctx, img, x, y, w, h, filter, brightness, contrast, index, r
     drawImageCover(ctx, img, x, y, w, h);
     ctx.filter = 'none';
   } else {
-    ctx.fillStyle = '#E5E0D8';
+    ctx.fillStyle = '#EAE5DE';
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = '#9C9488';
-    ctx.font = 'bold 28px "Fredoka", sans-serif';
+    ctx.font = 'bold 24px "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(`Pose #${index}`, x + (w / 2), y + (h / 2));
+    ctx.fillText(`PORTRAIT #${index}`, x + (w / 2), y + (h / 2));
   }
 
   ctx.restore();
